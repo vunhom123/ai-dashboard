@@ -3,20 +3,39 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+
+  /* LIGHT MODE mặc định */
+  background: #f8fafc;
+  color: #0f172a;
+
+  transition: all 0.3s ease;
+}
+
+/* DARK MODE */
+.dark {
+  background: #0f172a;
+  color: #f1f5f9;
 }
 
 .logo {
   height: 6em;
   padding: 1.5em;
   will-change: filter;
-  transition: filter 300ms;
+  transition:
+    filter 300ms,
+    transform 0.3s;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
+  transform: scale(1.05);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
+
+/* logo animation */
 
 @keyframes logo-spin {
   from {
@@ -33,10 +52,27 @@
   }
 }
 
+/* card dashboard */
+
 .card {
   padding: 2em;
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s;
 }
 
+.dark .card {
+  background: #1e293b;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+/* text phụ */
+
 .read-the-docs {
-  color: #888;
+  color: #64748b;
+}
+
+.dark .read-the-docs {
+  color: #94a3b8;
 }

@@ -3,6 +3,8 @@ import Login from "./Login";
 import { motion } from "framer-motion";
 import { io } from "socket.io-client";
 import * as XLSX from "xlsx";
+import utcBg from "./assets/utc.jpg";
+
 import {
   LineChart,
   Line,
@@ -21,6 +23,7 @@ const socket = io("http://localhost:5000");
 export default function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [page, setPage] = useState("dashboard");
+  const [dark, setDark] = useState(false);
 
   const [history, setHistory] = useState([]);
   const [lastScan, setLastScan] = useState(null);
@@ -49,79 +52,113 @@ export default function App() {
 
   return (
     <div style={styles.container}>
-      <Sidebar page={page} setPage={setPage} />
+      <div
+        style={{
+          display: "flex",
+          width: "100%",
+          background: dark ? "rgba(2,6,23,0.6)" : "rgba(255,255,255,0.4)",
+          backdropFilter: "blur(10px)",
+        }}
+      >
+        <Sidebar page={page} setPage={setPage} dark={dark} setDark={setDark} />
 
-      <div style={styles.main}>
-        {page === "dashboard" && (
-          <Dashboard history={history} lastScan={lastScan} />
-        )}
+        <div style={styles.main}>
+          {page === "dashboard" && (
+            <Dashboard history={history} lastScan={lastScan} dark={dark} />
+          )}
 
-        {page === "live" && <LiveScan lastScan={lastScan} />}
+          {page === "live" && <LiveScan lastScan={lastScan} />}
 
-        {page === "orders" && (
-          <Orders
-            orderList={orderList}
-            setOrderList={setOrderList}
-            scannedList={scannedList}
-          />
-        )}
+          {page === "orders" && (
+            <Orders
+              orderList={orderList}
+              setOrderList={setOrderList}
+              scannedList={scannedList}
+              dark={dark}
+            />
+          )}
 
-        {page === "map" && <DeliveryMap />}
+          {page === "map" && <DeliveryMap dark={dark} />}
 
-        {page === "history" && <History history={history} />}
+          {page === "history" && <History history={history} dark={dark} />}
 
-        {page === "settings" && <Settings logout={() => setLoggedIn(false)} />}
+          {page === "settings" && (
+            <Settings logout={() => setLoggedIn(false)} />
+          )}
+        </div>
       </div>
     </div>
   );
 }
 
-function Sidebar({ page, setPage }) {
+function Sidebar({ page, setPage, dark, setDark }) {
   return (
-    <div style={styles.sidebar}>
-      <h2 style={styles.logo}>AI Factory</h2>
+    <div
+      style={{
+        ...styles.sidebar,
+        background: dark ? "#020617" : "#e2e8f0",
+      }}
+    >
+      <h2
+        style={{
+          ...styles.logo,
+          color: dark ? "white" : "black",
+        }}
+      >
+        AI Factory
+      </h2>
 
       <Menu
         text="Dashboard"
         icon="📊"
         active={page === "dashboard"}
         click={() => setPage("dashboard")}
+        dark={dark}
       />
       <Menu
         text="Live Scan"
         icon="📡"
         active={page === "live"}
         click={() => setPage("live")}
+        dark={dark}
       />
       <Menu
         text="Orders"
         icon="📦"
         active={page === "orders"}
         click={() => setPage("orders")}
+        dark={dark}
       />
       <Menu
         text="Delivery Map"
         icon="🗺"
         active={page === "map"}
         click={() => setPage("map")}
+        dark={dark}
       />
       <Menu
         text="History"
         icon="📁"
         active={page === "history"}
         click={() => setPage("history")}
+        dark={dark}
       />
       <Menu
         text="Settings"
         icon="⚙"
         active={page === "settings"}
         click={() => setPage("settings")}
+        dark={dark}
       />
+
+      <button onClick={() => setDark(!dark)} style={styles.themeButton}>
+        {dark ? "☀ Light Mode" : "🌙 Dark Mode"}
+      </button>
     </div>
   );
 }
 
-function Menu({ text, icon, active, click }) {
+function Menu({ text, icon, active, click, dark }) {
   return (
     <motion.div
       whileHover={{ x: 6 }}
@@ -129,7 +166,18 @@ function Menu({ text, icon, active, click }) {
       onClick={click}
       style={{
         ...styles.menu,
-        background: active ? "#1e293b" : "transparent",
+
+        background: active ? (dark ? "#334155" : "#cbd5f5") : "transparent",
+
+        color: active
+          ? dark
+            ? "white"
+            : "#1e293b"
+          : dark
+            ? "#cbd5f5"
+            : "#334155",
+
+        fontWeight: active ? "600" : "400",
       }}
     >
       {icon} {text}
@@ -137,21 +185,22 @@ function Menu({ text, icon, active, click }) {
   );
 }
 
-function Dashboard({ history, lastScan }) {
-  const data = history.map((h, i) => ({
-    name: i,
-    value: 1,
-  }));
+function Dashboard({ history, lastScan, dark }) {
+  const data = history.map((h, i) => ({ name: i, value: 1 }));
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-      <h1>AI Monitoring Dashboard</h1>
+      <h1>
+        <h1 style={{ color: dark ? "white" : "black" }}>
+          AI Monitoring Dashboard
+        </h1>
+      </h1>
 
       <div style={styles.cards}>
-        <Card title="Total Scan" value={history.length} />
-        <Card title="OK" value={history.length} color="#22c55e" />
-        <Card title="Fail" value="0" color="#ef4444" />
-        <Card title="Error %" value="0%" />
+        <Card title="Total Scan" value={history.length} dark={dark} />
+        <Card title="OK" value={history.length} color="#22c55e" dark={dark} />
+        <Card title="Fail" value="0" color="#ef4444" dark={dark} />
+        <Card title="Error %" value="0%" dark={dark} />
       </div>
 
       {lastScan && (
@@ -165,7 +214,7 @@ function Dashboard({ history, lastScan }) {
         </motion.div>
       )}
 
-      <div style={styles.panel}>
+      <div style={styles.panel(dark)}>
         <h3>Scan Activity</h3>
 
         <ResponsiveContainer width="100%" height={250}>
@@ -186,7 +235,7 @@ function LiveScan({ lastScan }) {
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
       <h1>Live Scanner Feed</h1>
 
-      <div style={styles.panel}>
+      <div style={styles.panel(false)}>
         {lastScan ? (
           <motion.div
             key={lastScan.code}
@@ -205,26 +254,21 @@ function LiveScan({ lastScan }) {
   );
 }
 
-function Orders({ orderList, setOrderList, scannedList }) {
+function Orders({ orderList, setOrderList, scannedList, dark }) {
   const handleFile = (e) => {
     const file = e.target.files[0];
-
     const reader = new FileReader();
 
     reader.onload = (evt) => {
       const data = new Uint8Array(evt.target.result);
-
       const workbook = XLSX.read(data, { type: "array" });
-
       const sheet = workbook.Sheets[workbook.SheetNames[0]];
-
       const rows = XLSX.utils.sheet_to_json(sheet, { header: 1 });
 
       const orders = rows
         .flat()
         .map((x) => String(x).trim())
         .filter((x) => x);
-
       setOrderList(orders);
     };
 
@@ -233,40 +277,37 @@ function Orders({ orderList, setOrderList, scannedList }) {
 
   return (
     <div>
-      <h1>Order Checking</h1>
+      <h1 style={{ color: dark ? "white" : "black" }}>Order Checking</h1>
 
       <input type="file" accept=".xlsx,.csv,.txt" onChange={handleFile} />
 
-      <div style={{ marginTop: "30px" }}>
-        <table style={styles.table}>
-          <thead>
-            <tr>
-              <th>QR Code</th>
-              <th>Status</th>
-            </tr>
-          </thead>
+      <table style={styles.table}>
+        <thead>
+          <tr>
+            <th>QR Code</th>
+            <th>Status</th>
+          </tr>
+        </thead>
 
-          <tbody>
-            {orderList.map((code) => {
-              let status = "❌ Missing";
+        <tbody>
+          {orderList.map((code) => {
+            let status = "❌ Missing";
+            if (scannedList.includes(code)) status = "✔ OK";
 
-              if (scannedList.includes(code)) status = "✔ OK";
-
-              return (
-                <tr key={code}>
-                  <td>{code}</td>
-                  <td>{status}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
+            return (
+              <tr key={code}>
+                <td>{code}</td>
+                <td>{status}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
     </div>
   );
 }
 
-function DeliveryMap() {
+function DeliveryMap({ dark }) {
   const [position, setPosition] = useState([21.0285, 105.8542]);
 
   useEffect(() => {
@@ -282,13 +323,9 @@ function DeliveryMap() {
 
   return (
     <div>
-      <h1>Delivery Tracking</h1>
+      <h1 style={{ color: dark ? "white" : "black" }}>Delivery Tracking</h1>
 
-      <MapContainer
-        center={position}
-        zoom={13}
-        style={{ height: "500px", width: "100%" }}
-      >
+      <MapContainer center={position} zoom={13} style={{ height: "500px" }}>
         <TileLayer
           attribution="© OpenStreetMap"
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -302,7 +339,7 @@ function DeliveryMap() {
   );
 }
 
-function History({ history }) {
+function History({ history, dark }) {
   const exportCSV = () => {
     const rows = history.map((h) => `${h.time},${h.code}`).join("\n");
     const csv = "Time,QR\n" + rows;
@@ -318,13 +355,13 @@ function History({ history }) {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-      <h1>Scan History</h1>
+      <h1 style={{ color: dark ? "white" : "black" }}>Scan History</h1>
 
       <button style={styles.export} onClick={exportCSV}>
         Export CSV
       </button>
 
-      <div style={styles.panel}>
+      <div style={styles.panel(false)}>
         <table style={styles.table}>
           <thead>
             <tr>
@@ -347,12 +384,12 @@ function History({ history }) {
   );
 }
 
-function Settings({ logout }) {
+function Settings({ logout, dark, Dark }) {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-      <h1>Settings</h1>
+      <h1 style={{ color: dark ? "white" : "black" }}>Settings</h1>
 
-      <div style={styles.panel}>
+      <div style={styles.panel(dark)}>
         <button style={styles.logout} onClick={logout}>
           Logout
         </button>
@@ -361,11 +398,10 @@ function Settings({ logout }) {
   );
 }
 
-function Card({ title, value, color = "white" }) {
+function Card({ title, value, color = "white", dark }) {
   return (
-    <motion.div whileHover={{ scale: 1.05 }} style={styles.card}>
+    <motion.div whileHover={{ scale: 1.05 }} style={styles.card(dark)}>
       <p style={{ opacity: 0.6 }}>{title}</p>
-
       <h2 style={{ color }}>{value}</h2>
     </motion.div>
   );
@@ -374,45 +410,61 @@ function Card({ title, value, color = "white" }) {
 const styles = {
   container: {
     display: "flex",
-    background: "#0f172a",
-    color: "white",
     minHeight: "100vh",
     fontFamily: "Segoe UI",
+    backgroundImage: `url(${utcBg})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
   },
-  sidebar: { width: "230px", background: "#020617", padding: "30px" },
+
+  sidebar: {
+    width: "230px",
+    padding: "30px",
+  },
+
   logo: { marginBottom: "40px" },
+
   menu: {
     padding: "12px",
     marginBottom: "10px",
     borderRadius: "10px",
     cursor: "pointer",
   },
+
   main: { flex: 1, padding: "40px" },
+
   cards: {
     display: "grid",
     gridTemplateColumns: "repeat(4,1fr)",
     gap: "20px",
     marginTop: "20px",
   },
-  card: {
-    background: "#1e293b",
-    padding: "25px",
-    borderRadius: "15px",
-    boxShadow: "0 10px 25px rgba(0,0,0,0.4)",
-  },
-  panel: {
-    background: "#1e293b",
+
+  card: (dark) => ({
+    background: dark ? "#1e293b" : "#ffffff",
+    padding: "30px",
+    borderRadius: "20px",
+    color: dark ? "white" : "#111",
+    boxShadow: "0 10px 25px rgba(0,0,0,0.15)",
+  }),
+
+  panel: (dark) => ({
+    background: dark ? "#1e293b" : "#ffffff",
+    color: dark ? "white" : "black",
     padding: "20px",
     borderRadius: "15px",
     marginTop: "30px",
-  },
+  }),
+
   liveBox: { fontSize: "30px", textAlign: "center" },
+
   scanHighlight: {
     background: "#22c55e",
     padding: "15px",
     borderRadius: "10px",
     marginTop: "20px",
   },
+
   export: {
     padding: "10px 15px",
     marginTop: "10px",
@@ -422,13 +474,23 @@ const styles = {
     color: "white",
     cursor: "pointer",
   },
+
   table: { width: "100%", marginTop: "10px" },
+
   logout: {
     padding: "12px 20px",
     background: "#ef4444",
     border: "none",
     borderRadius: "8px",
     color: "white",
+    cursor: "pointer",
+  },
+
+  themeButton: {
+    marginTop: "40px",
+    padding: "10px",
+    borderRadius: "8px",
+    border: "none",
     cursor: "pointer",
   },
 };
