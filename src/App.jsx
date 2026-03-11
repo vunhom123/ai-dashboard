@@ -5,7 +5,7 @@ import { io } from "socket.io-client";
 import * as XLSX from "xlsx";
 import utcBg from "./assets/utc.jpg";
 import ExcelUpload from "./components/ExcelUpload";
-<ExcelUpload />;
+
 import {
   LineChart,
   Line,
@@ -360,6 +360,10 @@ function DeliveryMap({ dark }) {
     socket.on("shipper_location", (data) => {
       setPosition([data.lat, data.lng]);
     });
+
+    setTimeout(() => {
+      window.dispatchEvent(new Event("resize"));
+    }, 300);
   }, []);
 
   const icon = new L.Icon({
@@ -371,7 +375,11 @@ function DeliveryMap({ dark }) {
     <div>
       <h1 style={{ color: dark ? "white" : "black" }}>Delivery Tracking</h1>
 
-      <MapContainer center={position} zoom={13} style={{ height: "500px" }}>
+      <MapContainer
+        center={position}
+        zoom={13}
+        style={{ height: "500px", width: "100%" }}
+      >
         <TileLayer
           attribution="© OpenStreetMap"
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -384,7 +392,6 @@ function DeliveryMap({ dark }) {
     </div>
   );
 }
-
 function History({ history, dark }) {
   const exportCSV = () => {
     const rows = history.map((h) => `${h.time},${h.code}`).join("\n");
