@@ -4,7 +4,8 @@ import { motion } from "framer-motion";
 import { io } from "socket.io-client";
 import * as XLSX from "xlsx";
 import utcBg from "./assets/utc.jpg";
-
+import ExcelUpload from "./components/ExcelUpload";
+<ExcelUpload />;
 import {
   LineChart,
   Line,
@@ -255,6 +256,9 @@ function LiveScan({ lastScan }) {
 }
 
 function Orders({ orderList, setOrderList, scannedList, dark }) {
+  const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("All");
+
   const handleFile = (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
@@ -262,13 +266,16 @@ function Orders({ orderList, setOrderList, scannedList, dark }) {
     reader.onload = (evt) => {
       const data = new Uint8Array(evt.target.result);
       const workbook = XLSX.read(data, { type: "array" });
+
       const sheet = workbook.Sheets[workbook.SheetNames[0]];
+
       const rows = XLSX.utils.sheet_to_json(sheet, { header: 1 });
 
       const orders = rows
         .flat()
         .map((x) => String(x).trim())
         .filter((x) => x);
+
       setOrderList(orders);
     };
 
@@ -279,7 +286,32 @@ function Orders({ orderList, setOrderList, scannedList, dark }) {
     <div>
       <h1 style={{ color: dark ? "white" : "black" }}>Order Checking</h1>
 
+      {/* Upload Excel */}
+
       <input type="file" accept=".xlsx,.csv,.txt" onChange={handleFile} />
+
+      {/* Search + Filter */}
+
+      <div style={{ marginTop: "15px", marginBottom: "10px" }}>
+        <input
+          placeholder="Search QR..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          style={{ padding: "8px", marginRight: "10px" }}
+        />
+
+        <select
+          value={statusFilter}
+          onChange={(e) => setStatusFilter(e.target.value)}
+          style={{ padding: "8px" }}
+        >
+          <option value="All">All</option>
+          <option value="OK">OK</option>
+          <option value="Missing">Missing</option>
+        </select>
+      </div>
+
+      {/* Table */}
 
       <table style={styles.table}>
         <thead>
@@ -290,17 +322,31 @@ function Orders({ orderList, setOrderList, scannedList, dark }) {
         </thead>
 
         <tbody>
-          {orderList.map((code) => {
-            let status = "❌ Missing";
-            if (scannedList.includes(code)) status = "✔ OK";
+          {orderList
+            .filter((code) => {
+              let status = scannedList.includes(code) ? "OK" : "Missing";
 
-            return (
-              <tr key={code}>
-                <td>{code}</td>
-                <td>{status}</td>
-              </tr>
-            );
-          })}
+              const matchSearch = code
+                .toLowerCase()
+                .includes(search.toLowerCase());
+
+              const matchStatus =
+                statusFilter === "All" || status === statusFilter;
+
+              return matchSearch && matchStatus;
+            })
+            .map((code) => {
+              let status = "❌ Missing";
+
+              if (scannedList.includes(code)) status = "✔ OK";
+
+              return (
+                <tr key={code}>
+                  <td>{code}</td>
+                  <td>{status}</td>
+                </tr>
+              );
+            })}
         </tbody>
       </table>
     </div>
