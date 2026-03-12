@@ -276,78 +276,56 @@ function DeliveryMap({ dark }) {
   const [position, setPosition] = useState([21.0285, 105.8542]);
 
   useEffect(() => {
-    socket.on("shipper_location", (data) => {
-      setPosition([data.lat, data.lng]);
-    });
+    const locationHandler = (data) => {
+      if (!data) return;
+
+      if (!data.lat || !data.lng) return;
+
+      const lat = Number(data.lat);
+      const lng = Number(data.lng);
+
+      if (isNaN(lat) || isNaN(lng)) return;
+
+      setPosition([lat, lng]);
+    };
+
+    socket.on("shipper_location", locationHandler);
+
+    return () => {
+      socket.off("shipper_location", locationHandler);
+    };
   }, []);
 
   return (
-    <div>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
       <h1 style={{ color: dark ? "white" : "black" }}>Delivery Tracking</h1>
 
-      <MapContainer
-        center={position}
-        zoom={13}
-        style={{ height: "500px", width: "100%" }}
+      <div
+        style={{
+          marginTop: "20px",
+          borderRadius: "20px",
+          overflow: "hidden",
+        }}
       >
-        <TileLayer
-          attribution="© OpenStreetMap"
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
+        <MapContainer
+          key={position.join(",")}
+          center={position}
+          zoom={13}
+          style={{ height: "500px", width: "100%" }}
+        >
+          <TileLayer
+            attribution="© OpenStreetMap"
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
 
-        <Marker position={position}>
-          <Popup>Package Location</Popup>
-        </Marker>
-      </MapContainer>
-    </div>
-  );
-}
-
-/* ===== HISTORY ===== */
-
-function History({ history, dark }) {
-  const exportCSV = () => {
-    const rows = history.map((h) => `${h.time},${h.code}`).join("\n");
-
-    const csv = "Time,QR\n" + rows;
-
-    const blob = new Blob([csv]);
-
-    const url = URL.createObjectURL(blob);
-
-    const a = document.createElement("a");
-
-    a.href = url;
-    a.download = "scan-history.csv";
-    a.click();
-  };
-
-  return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-      <h1 style={{ color: dark ? "white" : "black" }}>Scan History</h1>
-
-      <button style={styles.export} onClick={exportCSV}>
-        Export CSV
-      </button>
-
-      <div style={styles.panel(false)}>
-        <table style={styles.table}>
-          <thead>
-            <tr>
-              <th>Time</th>
-              <th>QR Code</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {history.map((h, i) => (
-              <tr key={i}>
-                <td>{h.time}</td>
-                <td>{h.code}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+          <Marker position={position}>
+            <Popup>
+              📦 Package Location <br />
+              Lat: {position[0]} <br />
+              Lng: {position[1]}
+            </Popup>
+          </Marker>
+        </MapContainer>
       </div>
     </motion.div>
   );
