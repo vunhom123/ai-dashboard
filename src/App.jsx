@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { io } from "socket.io-client";
 import * as XLSX from "xlsx";
 import utcBg from "./assets/utc.jpg";
-import ExcelUpload from "./components/ExcelUpload";
+import Scan from "./Scan";
 
 import {
   LineChart,
@@ -81,6 +81,8 @@ export default function App() {
 
           {page === "map" && <DeliveryMap dark={dark} />}
 
+          {page === "scan" && <Scan />}
+
           {page === "history" && <History history={history} dark={dark} />}
 
           {page === "settings" && (
@@ -100,12 +102,7 @@ function Sidebar({ page, setPage, dark, setDark }) {
         background: dark ? "#020617" : "#e2e8f0",
       }}
     >
-      <h2
-        style={{
-          ...styles.logo,
-          color: dark ? "white" : "black",
-        }}
-      >
+      <h2 style={{ ...styles.logo, color: dark ? "white" : "black" }}>
         AI Factory
       </h2>
 
@@ -138,6 +135,13 @@ function Sidebar({ page, setPage, dark, setDark }) {
         dark={dark}
       />
       <Menu
+        text="Scan GPS"
+        icon="📍"
+        active={page === "scan"}
+        click={() => setPage("scan")}
+        dark={dark}
+      />
+      <Menu
         text="History"
         icon="📁"
         active={page === "history"}
@@ -167,9 +171,7 @@ function Menu({ text, icon, active, click, dark }) {
       onClick={click}
       style={{
         ...styles.menu,
-
         background: active ? (dark ? "#334155" : "#cbd5f5") : "transparent",
-
         color: active
           ? dark
             ? "white"
@@ -177,7 +179,6 @@ function Menu({ text, icon, active, click, dark }) {
           : dark
             ? "#cbd5f5"
             : "#334155",
-
         fontWeight: active ? "600" : "400",
       }}
     >
@@ -191,10 +192,8 @@ function Dashboard({ history, lastScan, dark }) {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-      <h1>
-        <h1 style={{ color: dark ? "white" : "black" }}>
-          AI Monitoring Dashboard
-        </h1>
+      <h1 style={{ color: dark ? "white" : "black" }}>
+        AI Monitoring Dashboard
       </h1>
 
       <div style={styles.cards}>
@@ -255,6 +254,8 @@ function LiveScan({ lastScan }) {
   );
 }
 
+/* ===== ORDERS ===== */
+
 function Orders({ orderList, setOrderList, scannedList, dark }) {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
@@ -268,7 +269,6 @@ function Orders({ orderList, setOrderList, scannedList, dark }) {
       const workbook = XLSX.read(data, { type: "array" });
 
       const sheet = workbook.Sheets[workbook.SheetNames[0]];
-
       const rows = XLSX.utils.sheet_to_json(sheet, { header: 1 });
 
       const orders = rows
@@ -286,11 +286,7 @@ function Orders({ orderList, setOrderList, scannedList, dark }) {
     <div>
       <h1 style={{ color: dark ? "white" : "black" }}>Order Checking</h1>
 
-      {/* Upload Excel */}
-
       <input type="file" accept=".xlsx,.csv,.txt" onChange={handleFile} />
-
-      {/* Search + Filter */}
 
       <div style={{ marginTop: "15px", marginBottom: "10px" }}>
         <input
@@ -303,15 +299,12 @@ function Orders({ orderList, setOrderList, scannedList, dark }) {
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
-          style={{ padding: "8px" }}
         >
           <option value="All">All</option>
           <option value="OK">OK</option>
           <option value="Missing">Missing</option>
         </select>
       </div>
-
-      {/* Table */}
 
       <table style={styles.table}>
         <thead>
@@ -353,6 +346,8 @@ function Orders({ orderList, setOrderList, scannedList, dark }) {
   );
 }
 
+/* ===== MAP ===== */
+
 function DeliveryMap({ dark }) {
   const [position, setPosition] = useState([21.0285, 105.8542]);
 
@@ -360,10 +355,6 @@ function DeliveryMap({ dark }) {
     socket.on("shipper_location", (data) => {
       setPosition([data.lat, data.lng]);
     });
-
-    setTimeout(() => {
-      window.dispatchEvent(new Event("resize"));
-    }, 300);
   }, []);
 
   const icon = new L.Icon({
@@ -392,15 +383,21 @@ function DeliveryMap({ dark }) {
     </div>
   );
 }
+
+/* ===== HISTORY ===== */
+
 function History({ history, dark }) {
   const exportCSV = () => {
     const rows = history.map((h) => `${h.time},${h.code}`).join("\n");
+
     const csv = "Time,QR\n" + rows;
 
     const blob = new Blob([csv]);
+
     const url = URL.createObjectURL(blob);
 
     const a = document.createElement("a");
+
     a.href = url;
     a.download = "scan-history.csv";
     a.click();
@@ -437,7 +434,7 @@ function History({ history, dark }) {
   );
 }
 
-function Settings({ logout, dark, Dark }) {
+function Settings({ logout, dark }) {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
       <h1 style={{ color: dark ? "white" : "black" }}>Settings</h1>

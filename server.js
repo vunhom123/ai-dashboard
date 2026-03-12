@@ -1,9 +1,13 @@
 const express = require("express");
 const http = require("http");
+const cors = require("cors");
 const { Server } = require("socket.io");
 
 const app = express();
 const server = http.createServer(app);
+
+app.use(cors());
+app.use(express.json());
 
 const io = new Server(server, {
   cors: { origin: "*" },
@@ -11,21 +15,39 @@ const io = new Server(server, {
 
 io.on("connection", (socket) => {
   console.log("dashboard connected");
-});
 
-app.use(express.json());
+  socket.on("disconnect", () => {
+    console.log("dashboard disconnected");
+  });
+});
 
 app.post("/scan", (req, res) => {
   const qr = req.body.qr;
 
-  io.emit("new_scan", {
+  const data = {
     code: qr,
     time: new Date().toLocaleTimeString(),
-  });
+  };
+
+  io.emit("new_scan", data);
+
+  res.send("ok");
+});
+
+app.post("/location", (req, res) => {
+  const { lat, lng } = req.body;
+
+  const data = {
+    lat,
+    lng,
+    time: new Date().toLocaleTimeString(),
+  };
+
+  io.emit("shipper_location", data);
 
   res.send("ok");
 });
 
 server.listen(5000, () => {
-  console.log("server running");
+  console.log("server running on port 5000");
 });
