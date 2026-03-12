@@ -331,8 +331,6 @@ function DeliveryMap({ dark }) {
   );
 }
 
-/* ===== SETTINGS ===== */
-
 function Settings({ logout, dark }) {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
@@ -353,6 +351,63 @@ function Card({ title, value, color = "white", dark }) {
       <p style={{ opacity: 0.6 }}>{title}</p>
 
       <h2 style={{ color }}>{value}</h2>
+    </motion.div>
+  );
+}
+function Orders({ orderList, setOrderList, scannedList, dark }) {
+  const uploadExcel = (e) => {
+    const file = e.target.files[0];
+
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = (evt) => {
+      const data = new Uint8Array(evt.target.result);
+
+      const workbook = XLSX.read(data, { type: "array" });
+
+      const sheet = workbook.Sheets[workbook.SheetNames[0]];
+
+      const json = XLSX.utils.sheet_to_json(sheet);
+
+      setOrderList(json);
+    };
+
+    reader.readAsArrayBuffer(file);
+  };
+
+  return (
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+      <h1 style={{ color: dark ? "white" : "black" }}>Order Management</h1>
+
+      <input type="file" accept=".xlsx,.xls" onChange={uploadExcel} />
+
+      <div style={styles.panel(dark)}>
+        <table style={styles.table}>
+          <thead>
+            <tr>
+              <th>Customer</th>
+              <th>QR Code</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {orderList.map((o, i) => {
+              const done = scannedList.includes(o.QR);
+
+              return (
+                <tr key={i} style={{ background: done ? "#dcfce7" : "" }}>
+                  <td>{o.Customer}</td>
+                  <td>{o.QR}</td>
+                  <td>{done ? "✅ Scanned" : "⏳ Waiting"}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </motion.div>
   );
 }
