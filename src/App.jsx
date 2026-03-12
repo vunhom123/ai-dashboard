@@ -19,7 +19,19 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
-const socket = io("http://localhost:5000");
+delete L.Icon.Default.prototype._getIconUrl;
+
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl:
+    "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-2x.png",
+  iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
+  shadowUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png",
+});
+
+const socket = io("https://qr-server-n6pp.onrender.com", {
+  transports: ["websocket"],
+  reconnection: true,
+});
 
 export default function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -86,7 +98,7 @@ export default function App() {
           {page === "history" && <History history={history} dark={dark} />}
 
           {page === "settings" && (
-            <Settings logout={() => setLoggedIn(false)} />
+            <Settings logout={() => setLoggedIn(false)} dark={dark} />
           )}
         </div>
       </div>
@@ -187,6 +199,8 @@ function Menu({ text, icon, active, click, dark }) {
   );
 }
 
+/* ===== DASHBOARD ===== */
+
 function Dashboard({ history, lastScan, dark }) {
   const data = history.map((h, i) => ({ name: i, value: 1 }));
 
@@ -230,6 +244,8 @@ function Dashboard({ history, lastScan, dark }) {
   );
 }
 
+/* ===== LIVE ===== */
+
 function LiveScan({ lastScan }) {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
@@ -254,98 +270,6 @@ function LiveScan({ lastScan }) {
   );
 }
 
-/* ===== ORDERS ===== */
-
-function Orders({ orderList, setOrderList, scannedList, dark }) {
-  const [search, setSearch] = useState("");
-  const [statusFilter, setStatusFilter] = useState("All");
-
-  const handleFile = (e) => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-
-    reader.onload = (evt) => {
-      const data = new Uint8Array(evt.target.result);
-      const workbook = XLSX.read(data, { type: "array" });
-
-      const sheet = workbook.Sheets[workbook.SheetNames[0]];
-      const rows = XLSX.utils.sheet_to_json(sheet, { header: 1 });
-
-      const orders = rows
-        .flat()
-        .map((x) => String(x).trim())
-        .filter((x) => x);
-
-      setOrderList(orders);
-    };
-
-    reader.readAsArrayBuffer(file);
-  };
-
-  return (
-    <div>
-      <h1 style={{ color: dark ? "white" : "black" }}>Order Checking</h1>
-
-      <input type="file" accept=".xlsx,.csv,.txt" onChange={handleFile} />
-
-      <div style={{ marginTop: "15px", marginBottom: "10px" }}>
-        <input
-          placeholder="Search QR..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          style={{ padding: "8px", marginRight: "10px" }}
-        />
-
-        <select
-          value={statusFilter}
-          onChange={(e) => setStatusFilter(e.target.value)}
-        >
-          <option value="All">All</option>
-          <option value="OK">OK</option>
-          <option value="Missing">Missing</option>
-        </select>
-      </div>
-
-      <table style={styles.table}>
-        <thead>
-          <tr>
-            <th>QR Code</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {orderList
-            .filter((code) => {
-              let status = scannedList.includes(code) ? "OK" : "Missing";
-
-              const matchSearch = code
-                .toLowerCase()
-                .includes(search.toLowerCase());
-
-              const matchStatus =
-                statusFilter === "All" || status === statusFilter;
-
-              return matchSearch && matchStatus;
-            })
-            .map((code) => {
-              let status = "❌ Missing";
-
-              if (scannedList.includes(code)) status = "✔ OK";
-
-              return (
-                <tr key={code}>
-                  <td>{code}</td>
-                  <td>{status}</td>
-                </tr>
-              );
-            })}
-        </tbody>
-      </table>
-    </div>
-  );
-}
-
 /* ===== MAP ===== */
 
 function DeliveryMap({ dark }) {
@@ -356,11 +280,6 @@ function DeliveryMap({ dark }) {
       setPosition([data.lat, data.lng]);
     });
   }, []);
-
-  const icon = new L.Icon({
-    iconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
-    iconSize: [35, 35],
-  });
 
   return (
     <div>
@@ -376,8 +295,8 @@ function DeliveryMap({ dark }) {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
-        <Marker position={position} icon={icon}>
-          <Popup>Shipper Location</Popup>
+        <Marker position={position}>
+          <Popup>Package Location</Popup>
         </Marker>
       </MapContainer>
     </div>
@@ -434,6 +353,8 @@ function History({ history, dark }) {
   );
 }
 
+/* ===== SETTINGS ===== */
+
 function Settings({ logout, dark }) {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
@@ -452,6 +373,7 @@ function Card({ title, value, color = "white", dark }) {
   return (
     <motion.div whileHover={{ scale: 1.05 }} style={styles.card(dark)}>
       <p style={{ opacity: 0.6 }}>{title}</p>
+
       <h2 style={{ color }}>{value}</h2>
     </motion.div>
   );
