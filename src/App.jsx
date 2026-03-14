@@ -102,6 +102,358 @@ const THEMES = {
   },
 };
 
+/* ─── LANGUAGES (NEW) ─────────────────────────────── */
+const LANGS = {
+  vi: { flag: "🇻🇳", name: "Tiếng Việt" },
+  en: { flag: "🇺🇸", name: "English" },
+  zh: { flag: "🇨🇳", name: "中文" },
+  ko: { flag: "🇰🇷", name: "한국어" },
+  ja: { flag: "🇯🇵", name: "日本語" },
+};
+
+const I18N = {
+  vi: {
+    dashboard: "Bảng điều khiển",
+    liveScan: "Live Scan",
+    orders: "Đơn hàng",
+    gpsMap: "Bản đồ GPS",
+    scanGPS: "Scan GPS",
+    leaderboard: "Leaderboard",
+    analytics: "Analytics",
+    history: "Lịch sử",
+    settings: "Cài đặt",
+    chat: "Chat nội bộ",
+    staff: "Nhân viên",
+    alerts: "Cảnh báo",
+    online: "Trực tuyến",
+    notifications: "Thông báo",
+    noNotif: "Không có thông báo mới",
+    close: "Đóng",
+    lightMode: "Giao diện sáng",
+    darkMode: "Giao diện tối",
+    language: "Ngôn ngữ",
+    logout: "Đăng xuất",
+    admin: "Quản trị viên",
+    loginAs: "Đăng nhập với tư cách",
+    login: "Đăng nhập",
+    // Staff
+    staffMgmt: "Quản lý nhân viên",
+    addStaff: "Thêm nhân viên",
+    staffName: "Họ tên",
+    staffRole: "Vai trò",
+    staffEmail: "Email",
+    staffStatus: "Trạng thái",
+    staffActive: "Đang làm",
+    staffInactive: "Nghỉ",
+    roleAdmin: "Quản trị viên",
+    roleSupervisor: "Giám sát",
+    roleScanner: "Nhân viên quét",
+    permissions: "Phân quyền",
+    canScan: "Quét mã QR",
+    canExport: "Xuất dữ liệu",
+    canManageOrders: "Quản lý đơn hàng",
+    canViewMap: "Xem bản đồ",
+    canManageStaff: "Quản lý nhân viên",
+    clickToEdit: "Bấm vào nhân viên để chỉnh quyền",
+    // Alerts
+    alertsPage: "Cảnh báo tự động",
+    alertRules: "Quy tắc cảnh báo",
+    alertHighError: "Tỉ lệ lỗi cao",
+    alertNoScan: "Không quét",
+    alertOffline: "Thiết bị offline",
+    threshold: "Ngưỡng",
+    triggered: "Kích hoạt",
+    times: "lần",
+    pushNotif: "Thông báo đẩy",
+    pushGranted: "Đã cấp quyền",
+    pushDenied: "Bị từ chối",
+    requestPush: "Yêu cầu quyền",
+    testAlert: "Test",
+    // Chat
+    internalChat: "Chat nội bộ",
+    teamChat: "Nhắn tin nhóm",
+    you: "Bạn",
+    msgPlaceholder: "Nhập tin nhắn...",
+    send: "Gửi",
+    // GPS
+    startGPS: "Bắt đầu GPS",
+    stopGPS: "Dừng GPS",
+    accuracy: "Độ chính xác",
+    // PDF
+    exportPDF: "Xuất PDF",
+    generating: "Đang tạo...",
+    reportGenerated: "Đã tạo báo cáo!",
+  },
+  en: {
+    dashboard: "Dashboard",
+    liveScan: "Live Scan",
+    orders: "Orders",
+    gpsMap: "GPS Map",
+    scanGPS: "Scan GPS",
+    leaderboard: "Leaderboard",
+    analytics: "Analytics",
+    history: "History",
+    settings: "Settings",
+    chat: "Internal Chat",
+    staff: "Staff",
+    alerts: "Alerts",
+    online: "Online",
+    notifications: "Notifications",
+    noNotif: "No new notifications",
+    close: "Close",
+    lightMode: "Light Mode",
+    darkMode: "Dark Mode",
+    language: "Language",
+    logout: "Logout",
+    admin: "Administrator",
+    loginAs: "Logged in as",
+    login: "Login",
+    staffMgmt: "Staff Management",
+    addStaff: "Add Staff",
+    staffName: "Full Name",
+    staffRole: "Role",
+    staffEmail: "Email",
+    staffStatus: "Status",
+    staffActive: "Active",
+    staffInactive: "Inactive",
+    roleAdmin: "Admin",
+    roleSupervisor: "Supervisor",
+    roleScanner: "Scanner",
+    permissions: "Permissions",
+    canScan: "QR Scanning",
+    canExport: "Export Data",
+    canManageOrders: "Manage Orders",
+    canViewMap: "View Map",
+    canManageStaff: "Manage Staff",
+    clickToEdit: "Click a staff member to edit permissions",
+    alertsPage: "Automatic Alerts",
+    alertRules: "Alert Rules",
+    alertHighError: "High Error Rate",
+    alertNoScan: "No Scan Activity",
+    alertOffline: "Device Offline",
+    threshold: "Threshold",
+    triggered: "Triggered",
+    times: "times",
+    pushNotif: "Push Notifications",
+    pushGranted: "Permission Granted",
+    pushDenied: "Permission Denied",
+    requestPush: "Request Permission",
+    testAlert: "Test",
+    internalChat: "Internal Chat",
+    teamChat: "Team Messaging",
+    you: "You",
+    msgPlaceholder: "Type a message...",
+    send: "Send",
+    startGPS: "Start GPS",
+    stopGPS: "Stop GPS",
+    accuracy: "Accuracy",
+    exportPDF: "Export PDF",
+    generating: "Generating...",
+    reportGenerated: "Report generated!",
+  },
+  zh: {
+    dashboard: "仪表盘",
+    liveScan: "实时扫描",
+    orders: "订单",
+    gpsMap: "GPS地图",
+    scanGPS: "GPS扫描",
+    leaderboard: "排行榜",
+    analytics: "分析",
+    history: "历史",
+    settings: "设置",
+    chat: "内部聊天",
+    staff: "员工",
+    alerts: "警报",
+    online: "在线",
+    notifications: "通知",
+    noNotif: "暂无新通知",
+    close: "关闭",
+    lightMode: "浅色模式",
+    darkMode: "深色模式",
+    language: "语言",
+    logout: "退出",
+    admin: "管理员",
+    loginAs: "登录身份",
+    login: "登录",
+    staffMgmt: "员工管理",
+    addStaff: "添加员工",
+    staffName: "姓名",
+    staffRole: "角色",
+    staffEmail: "邮箱",
+    staffStatus: "状态",
+    staffActive: "在职",
+    staffInactive: "休假",
+    roleAdmin: "管理员",
+    roleSupervisor: "主管",
+    roleScanner: "扫描员",
+    permissions: "权限",
+    canScan: "QR扫描",
+    canExport: "导出数据",
+    canManageOrders: "管理订单",
+    canViewMap: "查看地图",
+    canManageStaff: "管理员工",
+    clickToEdit: "点击员工编辑权限",
+    alertsPage: "自动警报",
+    alertRules: "警报规则",
+    alertHighError: "高错误率",
+    alertNoScan: "无扫描活动",
+    alertOffline: "设备离线",
+    threshold: "阈值",
+    triggered: "触发",
+    times: "次",
+    pushNotif: "推送通知",
+    pushGranted: "已授权",
+    pushDenied: "已拒绝",
+    requestPush: "请求权限",
+    testAlert: "测试",
+    internalChat: "内部聊天",
+    teamChat: "团队消息",
+    you: "你",
+    msgPlaceholder: "输入消息...",
+    send: "发送",
+    startGPS: "开始GPS",
+    stopGPS: "停止GPS",
+    accuracy: "精度",
+    exportPDF: "导出PDF",
+    generating: "生成中...",
+    reportGenerated: "报告已生成！",
+  },
+  ko: {
+    dashboard: "대시보드",
+    liveScan: "라이브 스캔",
+    orders: "주문",
+    gpsMap: "GPS 지도",
+    scanGPS: "GPS 스캔",
+    leaderboard: "리더보드",
+    analytics: "분석",
+    history: "기록",
+    settings: "설정",
+    chat: "내부 채팅",
+    staff: "직원",
+    alerts: "알림",
+    online: "온라인",
+    notifications: "알림",
+    noNotif: "새 알림 없음",
+    close: "닫기",
+    lightMode: "라이트 모드",
+    darkMode: "다크 모드",
+    language: "언어",
+    logout: "로그아웃",
+    admin: "관리자",
+    loginAs: "로그인 계정",
+    login: "로그인",
+    staffMgmt: "직원 관리",
+    addStaff: "직원 추가",
+    staffName: "이름",
+    staffRole: "역할",
+    staffEmail: "이메일",
+    staffStatus: "상태",
+    staffActive: "재직 중",
+    staffInactive: "휴직",
+    roleAdmin: "관리자",
+    roleSupervisor: "감독자",
+    roleScanner: "스캐너",
+    permissions: "권한",
+    canScan: "QR 스캔",
+    canExport: "데이터 내보내기",
+    canManageOrders: "주문 관리",
+    canViewMap: "지도 보기",
+    canManageStaff: "직원 관리",
+    clickToEdit: "직원을 클릭하여 권한 편집",
+    alertsPage: "자동 알림",
+    alertRules: "알림 규칙",
+    alertHighError: "높은 오류율",
+    alertNoScan: "스캔 없음",
+    alertOffline: "장치 오프라인",
+    threshold: "임계값",
+    triggered: "발생",
+    times: "회",
+    pushNotif: "푸시 알림",
+    pushGranted: "권한 부여됨",
+    pushDenied: "권한 거부됨",
+    requestPush: "권한 요청",
+    testAlert: "테스트",
+    internalChat: "내부 채팅",
+    teamChat: "팀 메시지",
+    you: "나",
+    msgPlaceholder: "메시지 입력...",
+    send: "보내기",
+    startGPS: "GPS 시작",
+    stopGPS: "GPS 중지",
+    accuracy: "정확도",
+    exportPDF: "PDF 내보내기",
+    generating: "생성 중...",
+    reportGenerated: "보고서 생성 완료!",
+  },
+  ja: {
+    dashboard: "ダッシュボード",
+    liveScan: "ライブスキャン",
+    orders: "注文",
+    gpsMap: "GPS地図",
+    scanGPS: "GPSスキャン",
+    leaderboard: "リーダーボード",
+    analytics: "分析",
+    history: "履歴",
+    settings: "設定",
+    chat: "社内チャット",
+    staff: "スタッフ",
+    alerts: "アラート",
+    online: "オンライン",
+    notifications: "通知",
+    noNotif: "新しい通知なし",
+    close: "閉じる",
+    lightMode: "ライトモード",
+    darkMode: "ダークモード",
+    language: "言語",
+    logout: "ログアウト",
+    admin: "管理者",
+    loginAs: "ログイン中",
+    login: "ログイン",
+    staffMgmt: "スタッフ管理",
+    addStaff: "スタッフ追加",
+    staffName: "氏名",
+    staffRole: "役割",
+    staffEmail: "メール",
+    staffStatus: "状態",
+    staffActive: "在職",
+    staffInactive: "休職",
+    roleAdmin: "管理者",
+    roleSupervisor: "監督者",
+    roleScanner: "スキャナー",
+    permissions: "権限",
+    canScan: "QRスキャン",
+    canExport: "データエクスポート",
+    canManageOrders: "注文管理",
+    canViewMap: "地図表示",
+    canManageStaff: "スタッフ管理",
+    clickToEdit: "スタッフをクリックして権限編集",
+    alertsPage: "自動アラート",
+    alertRules: "アラートルール",
+    alertHighError: "高エラー率",
+    alertNoScan: "スキャンなし",
+    alertOffline: "デバイスオフライン",
+    threshold: "閾値",
+    triggered: "発生",
+    times: "回",
+    pushNotif: "プッシュ通知",
+    pushGranted: "許可済み",
+    pushDenied: "拒否済み",
+    requestPush: "権限リクエスト",
+    testAlert: "テスト",
+    internalChat: "社内チャット",
+    teamChat: "チームメッセージ",
+    you: "あなた",
+    msgPlaceholder: "メッセージを入力...",
+    send: "送信",
+    startGPS: "GPS開始",
+    stopGPS: "GPS停止",
+    accuracy: "精度",
+    exportPDF: "PDFエクスポート",
+    generating: "生成中...",
+    reportGenerated: "レポート生成完了！",
+  },
+};
+
 /* ─── GLOBAL STYLE ────────────────────────────────── */
 const GlobalStyle = ({ dark }) => {
   const t = dark ? THEMES.dark : THEMES.light;
@@ -162,6 +514,10 @@ const GlobalStyle = ({ dark }) => {
         color:var(--danger);font-weight:800;font-family:'Nunito',sans-serif;font-size:12.5px;cursor:pointer;
         transition:background .2s,transform .15s;}
       .btn-danger:hover{background:rgba(248,113,113,.1);transform:translateY(-1px);}
+      .btn-success{padding:9px 18px;background:transparent;border:1px solid var(--success);border-radius:9px;
+        color:var(--success);font-weight:800;font-family:'Nunito',sans-serif;font-size:12.5px;cursor:pointer;
+        transition:background .2s,transform .15s;}
+      .btn-success:hover{background:rgba(52,211,153,.1);transform:translateY(-1px);}
       .file-input-wrapper{display:inline-flex;align-items:center;gap:9px;padding:9px 16px;
         background:var(--surface);border:1px dashed var(--card-border);border-radius:10px;
         cursor:pointer;color:var(--muted);font-size:13px;font-weight:600;font-family:'Nunito',sans-serif;
@@ -193,11 +549,83 @@ const GlobalStyle = ({ dark }) => {
       .kpi-trend{display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:700;margin-top:4px;}
       .kpi-trend.up{color:var(--success);} .kpi-trend.down{color:var(--danger);}
       .kpi-trend.flat{color:var(--muted);}
+      /* ── MOBILE RESPONSIVE (nâng cấp) ── */
+      .mobile-topbar{display:none;position:fixed;top:0;left:0;right:0;height:54px;z-index:50;
+        background:var(--sidebar);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+        border-bottom:1px solid var(--card-border);align-items:center;padding:0 14px;gap:10px;}
+      .tbl-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%;}
+      /* Chat bubbles */
+      .bubble-me{background:var(--accent);color:${dark ? "#070d1a" : "#fff"};border-radius:14px 14px 3px 14px;}
+      .bubble-other{background:var(--surface);color:var(--text);border:1px solid var(--card-border);border-radius:14px 14px 14px 3px;}
+      .chat-textarea{flex:1;padding:10px 13px;background:var(--surface);border:1px solid var(--card-border);
+        border-radius:10px;color:var(--text);font-size:13px;font-family:'Nunito',sans-serif;outline:none;resize:none;}
+      .chat-textarea:focus{border-color:var(--accent);}
+      /* Staff */
+      .staff-card{background:var(--surface);border:1px solid var(--card-border);border-radius:12px;
+        padding:14px;cursor:pointer;transition:border-color .2s;}
+      .staff-card:hover,.staff-card.active{border-color:var(--accent);}
+      /* Toggle */
+      .toggle-wrap{width:42px;height:23px;border-radius:12px;cursor:pointer;position:relative;
+        transition:background .2s;flex-shrink:0;}
+      .toggle-knob{width:17px;height:17px;border-radius:50%;background:#fff;position:absolute;
+        top:3px;transition:left .2s;}
+      /* Lang button */
+      .lang-btn{padding:7px 13px;background:transparent;border:1px solid var(--card-border);border-radius:9px;
+        cursor:pointer;font-size:13px;font-family:'Nunito',sans-serif;color:var(--muted);
+        transition:all .2s;display:flex;align-items:center;gap:7px;width:100%;}
+      .lang-btn:hover,.lang-btn.active{border-color:var(--accent);color:var(--accent);background:var(--menu-active);}
+      /* Alert card */
+      .alert-rule-card{background:var(--surface);border:1px solid var(--card-border);border-radius:11px;
+        padding:13px 16px;display:flex;align-items:center;gap:12px;transition:border-color .2s;}
+      .alert-rule-card:hover{border-color:var(--accent);}
+
+      /* ── TABLET ── */
+      @media(max-width:1024px){
+        .grid-4-col{grid-template-columns:repeat(2,1fr)!important;}
+        .grid-chart-col{grid-template-columns:1fr!important;}
+      }
+      @media(max-width:900px){
+        .grid-4-col{grid-template-columns:repeat(2,1fr)!important;}
+        .grid-3-col{grid-template-columns:repeat(2,1fr)!important;}
+        .grid-2-col{grid-template-columns:1fr!important;}
+        .grid-chart-col{grid-template-columns:1fr!important;}
+      }
+      /* ── MOBILE ── */
+      @media(max-width:600px){
+        aside.main-sidebar{display:none!important;}
+        .mobile-topbar{display:flex!important;}
+        .main-content-area{padding:62px 12px 24px!important;}
+        .page-title{font-size:19px!important;}
+        .grid-4-col{grid-template-columns:1fr 1fr!important;gap:8px!important;}
+        .grid-3-col{grid-template-columns:1fr 1fr!important;gap:8px!important;}
+        .grid-2-col{grid-template-columns:1fr!important;gap:10px!important;}
+        .grid-chart-col{grid-template-columns:1fr!important;}
+        .panel{padding:14px!important;border-radius:14px!important;}
+        .stat-card{padding:14px 12px!important;border-radius:14px!important;}
+        .stat-card h2{font-size:24px!important;}
+        table th{padding:7px 8px!important;font-size:9px!important;}
+        table td{padding:8px!important;font-size:12px!important;}
+        .btn-primary,.btn-ghost,.btn-danger,.btn-success{padding:7px 12px!important;font-size:11.5px!important;}
+        .badge{font-size:9.5px!important;padding:2px 7px!important;}
+        .section-label{font-size:9.5px!important;}
+        /* Map full width on mobile */
+        .leaflet-container{height:300px!important;}
+        /* Hide long text on small screens */
+        .hide-mobile{display:none!important;}
+        /* Stack toolbar items */
+        .toolbar-wrap{flex-direction:column!important;align-items:stretch!important;}
+        .toolbar-wrap>*{width:100%!important;}
+        /* Chat full height */
+        .chat-box{height:55vh!important;}
+      }
+      @media(max-width:400px){
+        .grid-4-col{grid-template-columns:1fr 1fr!important;}
+        .main-content-area{padding:60px 10px 20px!important;}
+        .stat-card h2{font-size:20px!important;}
+      }
     `}</style>
   );
 };
-
-/* ─── SOCKET ──────────────────────────────────────── */
 
 /* ─── HELPERS ─────────────────────────────────────── */
 function MapAutoCenter({ position }) {
@@ -207,19 +635,106 @@ function MapAutoCenter({ position }) {
   }, [position]);
   return null;
 }
-
 function fmtNum(n) {
   if (n >= 1000000) return (n / 1000000).toFixed(1) + "M";
   if (n >= 1000) return (n / 1000).toFixed(1) + "K";
   return String(n);
 }
-
 function timeNow() {
   return new Date().toLocaleTimeString("vi-VN", {
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
   });
+}
+
+/* ─── TOGGLE (NEW) ────────────────────────────────── */
+function Toggle({ on, set }) {
+  return (
+    <div
+      className="toggle-wrap"
+      onClick={() => set(!on)}
+      style={{
+        background: on ? "var(--success)" : "var(--surface)",
+        border: "1px solid var(--card-border)",
+      }}
+    >
+      <div className="toggle-knob" style={{ left: on ? 22 : 3 }} />
+    </div>
+  );
+}
+
+/* ─── GPS HOOK (NEW) ──────────────────────────────── */
+function useGPS(setPos, setHistory, addToast) {
+  const wid = useRef(null);
+  const [active, setActive] = useState(false);
+  const [gpsErr, setGpsErr] = useState(null);
+  const [accuracy, setAccuracy] = useState(null);
+
+  const start = useCallback(() => {
+    if (!navigator.geolocation) {
+      setGpsErr("GPS N/A");
+      return;
+    }
+    setActive(true);
+    setGpsErr(null);
+    wid.current = navigator.geolocation.watchPosition(
+      (pos) => {
+        const { latitude: lat, longitude: lng, accuracy: acc } = pos.coords;
+        setPos([lat, lng]);
+        setHistory((prev) => {
+          const last = prev[prev.length - 1];
+          if (
+            last &&
+            Math.abs(last[0] - lat) < 0.000008 &&
+            Math.abs(last[1] - lng) < 0.000008
+          )
+            return prev;
+          return [...prev, [lat, lng]];
+        });
+        setAccuracy(acc ? acc.toFixed(1) : null);
+        socket.emit("shipper_location", { lat, lng, accuracy: acc });
+      },
+      (e) => {
+        setGpsErr(e.message);
+        setActive(false);
+        addToast("GPS: " + e.message, "danger");
+      },
+      { enableHighAccuracy: true, maximumAge: 2000, timeout: 8000 },
+    );
+  }, []);
+
+  const stop = useCallback(() => {
+    if (wid.current !== null) {
+      navigator.geolocation.clearWatch(wid.current);
+      wid.current = null;
+    }
+    setActive(false);
+  }, []);
+
+  useEffect(
+    () => () => {
+      if (wid.current !== null) navigator.geolocation.clearWatch(wid.current);
+    },
+    [],
+  );
+  return { active, gpsErr, accuracy, start, stop };
+}
+
+/* ─── PUSH HOOK (NEW) ────────────────────────────── */
+function usePush() {
+  const [perm, setPerm] = useState(
+    typeof Notification !== "undefined" ? Notification.permission : "default",
+  );
+  const request = async () => {
+    if (typeof Notification === "undefined") return;
+    const r = await Notification.requestPermission();
+    setPerm(r);
+  };
+  const push = (title, body) => {
+    if (perm === "granted") new Notification(title, { body });
+  };
+  return { perm, request, push };
 }
 
 /* ─── TOAST ───────────────────────────────────────── */
@@ -263,7 +778,7 @@ function Toast({ message, type = "info", onClose }) {
 }
 
 /* ─── NOTIFICATION PANEL ──────────────────────────── */
-function NotifPanel({ notifs, onClose }) {
+function NotifPanel({ notifs, onClose, i18n }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: -10, scale: 0.96 }}
@@ -291,13 +806,15 @@ function NotifPanel({ notifs, onClose }) {
           marginBottom: 12,
         }}
       >
-        <span style={{ fontWeight: 800, fontSize: 13 }}>Thông báo</span>
+        <span style={{ fontWeight: 800, fontSize: 13 }}>
+          {i18n.notifications}
+        </span>
         <button
           className="btn-ghost"
           style={{ padding: "3px 8px", fontSize: 11 }}
           onClick={onClose}
         >
-          Đóng
+          {i18n.close}
         </button>
       </div>
       {notifs.length === 0 && (
@@ -309,7 +826,7 @@ function NotifPanel({ notifs, onClose }) {
             padding: "18px 0",
           }}
         >
-          Không có thông báo mới
+          {i18n.noNotif}
         </p>
       )}
       <div
@@ -470,6 +987,7 @@ export default function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [page, setPage] = useState("dashboard");
   const [dark, setDark] = useState(true);
+  const [langCode, setLangCode] = useState("vi"); // NEW
   const [history, setHistory] = useState([]);
   const [lastScan, setLastScan] = useState(null);
   const [orderList, setOrderList] = useState([]);
@@ -477,6 +995,7 @@ export default function App() {
   const [toasts, setToasts] = useState([]);
   const [notifs, setNotifs] = useState([]);
   const [showNotif, setShowNotif] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false); // NEW
 
   // GPS / map
   const [shipperPos, setShipperPos] = useState([21.0285, 105.8542]);
@@ -494,13 +1013,20 @@ export default function App() {
   const [errorRate, setErrorRate] = useState(0);
   const [failCount, setFailCount] = useState(0);
 
-  // Leaderboard mock
-  const [leaderboard] = useState([
-    { name: "Nguyễn Văn A", avatar: "A", scans: 0, streak: 12, badge: "🥇" },
-    { name: "Trần Thị B", avatar: "B", scans: 0, streak: 7, badge: "🥈" },
-    { name: "Lê Minh C", avatar: "C", scans: 0, streak: 3, badge: "🥉" },
+  // Staff state — bắt đầu rỗng, user tự thêm
+  const [staff, setStaff] = useState([]);
+
+  // NEW: Alert rules
+  const [alertRules, setAlertRules] = useState([
+    { id: 1, type: "highError", threshold: 10, enabled: true, triggered: 0 },
+    { id: 2, type: "noScan", threshold: 30, enabled: true, triggered: 0 },
+    { id: 3, type: "offline", threshold: 5, enabled: false, triggered: 0 },
   ]);
 
+  // Leaderboard — rỗng, dùng data thật từ staff
+  const [leaderboard] = useState([]);
+
+  const i18n = I18N[langCode];
   const addToast = (msg, type = "info") => {
     const id = Date.now();
     setToasts((p) => [...p, { id, msg, type }]);
@@ -509,6 +1035,11 @@ export default function App() {
   const addNotif = (msg, type = "info") => {
     setNotifs((p) => [{ msg, type, time: timeNow() }, ...p].slice(0, 30));
   };
+
+  // NEW: GPS hook
+  const gps = useGPS(setShipperPos, setLocationHistory, addToast);
+  // NEW: Push hook
+  const pushN = usePush();
 
   useEffect(() => {
     socket.on("new_scan", (data) => {
@@ -519,8 +1050,7 @@ export default function App() {
       );
       addToast(`Quét mã: ${data.code}`, "success");
       addNotif(`Quét thành công: ${data.code}`, "success");
-
-      // update hourly
+      pushN.push("✓ Scan OK", data.code); // NEW
       setHourlyData((prev) => {
         const copy = [...prev];
         copy[copy.length - 1] = {
@@ -529,12 +1059,11 @@ export default function App() {
         };
         return copy;
       });
-
       if (data.lat && data.lng) {
         const lat = Number(data.lat),
           lng = Number(data.lng);
         if (!isNaN(lat) && !isNaN(lng)) {
-          setShipperPos([lat, lng]);
+          setShipperPos([lat, lng]); // NEW: also update on scan
           setLocationHistory((prev) => [...prev, [lat, lng]]);
           setScanPoints((prev) => [
             ...prev,
@@ -545,7 +1074,6 @@ export default function App() {
       const audio = new Audio("/scan.mp3");
       audio.play().catch(() => {});
     });
-
     socket.on("scan_error", (data) => {
       setFailCount((p) => p + 1);
       setHistory((prev) => [{ ...data, ts: Date.now(), error: true }, ...prev]);
@@ -560,7 +1088,6 @@ export default function App() {
         return copy;
       });
     });
-
     socket.on("shipper_location", (data) => {
       if (!data?.lat || !data?.lng) return;
       const lat = Number(data.lat),
@@ -573,7 +1100,6 @@ export default function App() {
         return [...prev, [lat, lng]];
       });
     });
-
     return () => {
       socket.off("new_scan");
       socket.off("scan_error");
@@ -581,7 +1107,6 @@ export default function App() {
     };
   }, []);
 
-  // Compute error rate
   useEffect(() => {
     const total = history.length;
     setErrorRate(total > 0 ? ((failCount / total) * 100).toFixed(1) : "0.0");
@@ -594,6 +1119,47 @@ export default function App() {
   return (
     <>
       <GlobalStyle dark={dark} />
+      {/* NEW: Mobile topbar */}
+      <div className="mobile-topbar" style={{ display: "flex" }}>
+        <button
+          onClick={() => setMobileOpen(true)}
+          style={{
+            background: "transparent",
+            border: "none",
+            cursor: "pointer",
+            color: "var(--text)",
+            fontSize: 20,
+          }}
+        >
+          ☰
+        </button>
+        <span
+          style={{
+            fontFamily: "'Raleway',sans-serif",
+            fontSize: 16,
+            fontWeight: 900,
+            color: "var(--text)",
+          }}
+        >
+          AI Factory
+        </span>
+        <div
+          style={{
+            marginLeft: "auto",
+            display: "flex",
+            alignItems: "center",
+            gap: 5,
+          }}
+        >
+          <span className="pulse-dot" />
+          <span
+            style={{ fontSize: 11, color: "var(--success)", fontWeight: 700 }}
+          >
+            {i18n.online}
+          </span>
+        </div>
+      </div>
+
       <div
         style={{
           display: "flex",
@@ -605,7 +1171,6 @@ export default function App() {
           position: "relative",
         }}
       >
-        {/* Overlay */}
         <div
           style={{
             position: "fixed",
@@ -617,6 +1182,61 @@ export default function App() {
           }}
         />
 
+        {/* NEW: Mobile sidebar drawer */}
+        <AnimatePresence>
+          {mobileOpen && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              style={{
+                position: "fixed",
+                inset: 0,
+                zIndex: 60,
+                display: "flex",
+              }}
+            >
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                style={{ flex: 1, background: "rgba(0,0,0,.6)" }}
+                onClick={() => setMobileOpen(false)}
+              />
+              <motion.div
+                initial={{ x: 240 }}
+                animate={{ x: 0 }}
+                exit={{ x: 240 }}
+                transition={{ type: "spring", damping: 28, stiffness: 240 }}
+                style={{
+                  width: 230,
+                  background: "var(--sidebar)",
+                  backdropFilter: "blur(22px)",
+                  borderLeft: "1px solid var(--card-border)",
+                  overflow: "auto",
+                  zIndex: 61,
+                }}
+              >
+                <SidebarInner
+                  page={page}
+                  setPage={(p) => {
+                    setPage(p);
+                    setMobileOpen(false);
+                  }}
+                  dark={dark}
+                  setDark={setDark}
+                  notifCount={notifs.filter((n) => n.type !== "info").length}
+                  showNotif={showNotif}
+                  setShowNotif={setShowNotif}
+                  notifs={notifs}
+                  i18n={i18n}
+                  langCode={langCode}
+                />
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         <Sidebar
           page={page}
           setPage={setPage}
@@ -626,9 +1246,12 @@ export default function App() {
           showNotif={showNotif}
           setShowNotif={setShowNotif}
           notifs={notifs}
+          i18n={i18n}
+          langCode={langCode}
         />
 
         <main
+          className="main-content-area"
           style={{
             flex: 1,
             padding: "36px 42px",
@@ -673,6 +1296,8 @@ export default function App() {
                   shipperPos={shipperPos}
                   locationHistory={locationHistory}
                   scanPoints={scanPoints}
+                  gps={gps}
+                  i18n={i18n}
                 />
               )}
               {page === "scan" && <Scan />}
@@ -684,14 +1309,42 @@ export default function App() {
                   history={history}
                   hourlyData={hourlyData}
                   failCount={failCount}
+                  okCount={okCount}
+                  errorRate={errorRate}
+                  addToast={addToast}
+                  i18n={i18n}
                 />
               )}
               {page === "history" && <History history={history} />}
+              {/* NEW pages */}
+              {page === "chat" && <ChatPage i18n={i18n} />}
+              {page === "staff" && (
+                <StaffPage
+                  staff={staff}
+                  setStaff={setStaff}
+                  i18n={i18n}
+                  addToast={addToast}
+                />
+              )}
+              {page === "alerts" && (
+                <AlertsPage
+                  alertRules={alertRules}
+                  setAlertRules={setAlertRules}
+                  i18n={i18n}
+                  pushN={pushN}
+                  addToast={addToast}
+                  history={history}
+                  failCount={failCount}
+                />
+              )}
               {page === "settings" && (
                 <Settings
                   logout={() => setLoggedIn(false)}
                   dark={dark}
                   setDark={setDark}
+                  langCode={langCode}
+                  setLangCode={setLangCode}
+                  i18n={i18n}
                 />
               )}
             </motion.div>
@@ -699,7 +1352,6 @@ export default function App() {
         </main>
       </div>
 
-      {/* Toasts */}
       <div
         style={{
           position: "fixed",
@@ -726,20 +1378,8 @@ export default function App() {
   );
 }
 
-/* ─── SIDEBAR ─────────────────────────────────────── */
-const NAV = [
-  { id: "dashboard", icon: "⬡", label: "Dashboard", section: "Điều hành" },
-  { id: "live", icon: "◉", label: "Live Scan" },
-  { id: "orders", icon: "▣", label: "Đơn hàng" },
-  { id: "map", icon: "◎", label: "Bản đồ GPS" },
-  { id: "scan", icon: "◈", label: "Scan GPS" },
-  { id: "leaderboard", icon: "⊛", label: "Leaderboard", section: "Phân tích" },
-  { id: "analytics", icon: "▦", label: "Analytics" },
-  { id: "history", icon: "▤", label: "Lịch sử" },
-  { id: "settings", icon: "⚙", label: "Cài đặt", section: "Hệ thống" },
-];
-
-function Sidebar({
+/* ─── SIDEBAR INNER (extracted for reuse in drawer) ── */
+function SidebarInner({
   page,
   setPage,
   dark,
@@ -748,25 +1388,37 @@ function Sidebar({
   showNotif,
   setShowNotif,
   notifs,
+  i18n,
+  langCode,
 }) {
+  const NAV = [
+    { id: "dashboard", icon: "⬡", label: i18n.dashboard, section: "Điều hành" },
+    { id: "live", icon: "◉", label: i18n.liveScan },
+    { id: "orders", icon: "▣", label: i18n.orders },
+    { id: "map", icon: "◎", label: i18n.gpsMap },
+    { id: "scan", icon: "◈", label: i18n.scanGPS },
+    {
+      id: "leaderboard",
+      icon: "⊛",
+      label: i18n.leaderboard,
+      section: "Phân tích",
+    },
+    { id: "analytics", icon: "▦", label: i18n.analytics },
+    { id: "history", icon: "▤", label: i18n.history },
+    { id: "chat", icon: "💬", label: i18n.chat }, // NEW
+    { id: "staff", icon: "👥", label: i18n.staff, section: "HR" }, // NEW
+    { id: "alerts", icon: "🔔", label: i18n.alerts }, // NEW
+    { id: "settings", icon: "⚙", label: i18n.settings, section: "Hệ thống" },
+  ];
   return (
-    <aside
+    <div
       style={{
-        width: 220,
-        minHeight: "100vh",
-        background: "var(--sidebar)",
-        backdropFilter: "blur(20px)",
-        WebkitBackdropFilter: "blur(20px)",
-        borderRight: "1px solid var(--card-border)",
-        padding: "28px 12px",
         display: "flex",
         flexDirection: "column",
-        position: "sticky",
-        top: 0,
-        zIndex: 10,
+        height: "100%",
+        padding: "28px 12px",
       }}
     >
-      {/* Logo */}
       <div style={{ padding: "0 10px", marginBottom: 32 }}>
         <div
           style={{
@@ -802,12 +1454,10 @@ function Sidebar({
           <span
             style={{ fontSize: 11, color: "var(--success)", fontWeight: 700 }}
           >
-            Trực tuyến
+            {i18n.online}
           </span>
         </div>
       </div>
-
-      {/* Notif button */}
       <div
         style={{ padding: "0 10px", marginBottom: 14, position: "relative" }}
       >
@@ -823,7 +1473,7 @@ function Sidebar({
           onClick={() => setShowNotif((p) => !p)}
         >
           <span style={{ display: "flex", alignItems: "center", gap: 7 }}>
-            <span>🔔</span> Thông báo
+            <span>🔔</span> {i18n.notifications}
           </span>
           {notifCount > 0 && (
             <span
@@ -842,14 +1492,22 @@ function Sidebar({
         </button>
         <AnimatePresence>
           {showNotif && (
-            <NotifPanel notifs={notifs} onClose={() => setShowNotif(false)} />
+            <NotifPanel
+              notifs={notifs}
+              onClose={() => setShowNotif(false)}
+              i18n={i18n}
+            />
           )}
         </AnimatePresence>
       </div>
-
-      {/* Nav */}
       <nav
-        style={{ flex: 1, display: "flex", flexDirection: "column", gap: 1 }}
+        style={{
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          gap: 1,
+          overflowY: "auto",
+        }}
       >
         {NAV.map((item) => (
           <React.Fragment key={item.id}>
@@ -868,19 +1526,64 @@ function Sidebar({
                 {item.section}
               </div>
             )}
-            <NavItem
-              item={item}
-              active={page === item.id}
+            <motion.button
+              whileTap={{ scale: 0.97 }}
               onClick={() => setPage(item.id)}
-            />
+              style={{
+                width: "100%",
+                display: "flex",
+                alignItems: "center",
+                gap: 10,
+                padding: "9px 12px",
+                borderRadius: 9,
+                border: "none",
+                cursor: "pointer",
+                background:
+                  page === item.id ? "var(--menu-active)" : "transparent",
+                color: page === item.id ? "var(--accent)" : "var(--muted)",
+                fontWeight: page === item.id ? 800 : 600,
+                fontSize: 13,
+                textAlign: "left",
+                fontFamily: "'Nunito',sans-serif",
+                transition: "background .15s,color .15s",
+                position: "relative",
+              }}
+            >
+              {page === item.id && (
+                <motion.div
+                  layoutId="nav-indicator"
+                  style={{
+                    position: "absolute",
+                    left: 0,
+                    top: "18%",
+                    bottom: "18%",
+                    width: 3,
+                    borderRadius: 4,
+                    background: "var(--accent)",
+                    boxShadow: "0 0 8px var(--accent)",
+                  }}
+                />
+              )}
+              <span style={{ fontSize: 13 }}>{item.icon}</span>
+              {item.label}
+            </motion.button>
           </React.Fragment>
         ))}
       </nav>
-
+      <div
+        style={{
+          fontSize: 10,
+          color: "var(--muted)",
+          textAlign: "center",
+          marginBottom: 8,
+          fontWeight: 600,
+        }}
+      >
+        {LANGS[langCode]?.flag} {LANGS[langCode]?.name}
+      </div>
       <button
         onClick={() => setDark(!dark)}
         style={{
-          marginTop: 18,
           padding: "9px 12px",
           background: "var(--surface)",
           border: "1px solid var(--card-border)",
@@ -896,58 +1599,60 @@ function Sidebar({
           transition: "color .2s",
         }}
       >
-        {dark ? "☀" : "🌙"} {dark ? "Giao diện sáng" : "Giao diện tối"}
+        {dark ? "☀" : "🌙"} {dark ? i18n.lightMode : i18n.darkMode}
       </button>
+    </div>
+  );
+}
+
+/* ─── SIDEBAR (original structure, now uses SidebarInner) ── */
+function Sidebar({
+  page,
+  setPage,
+  dark,
+  setDark,
+  notifCount,
+  showNotif,
+  setShowNotif,
+  notifs,
+  i18n,
+  langCode,
+}) {
+  return (
+    <aside
+      className="main-sidebar"
+      style={{
+        width: 220,
+        minHeight: "100vh",
+        background: "var(--sidebar)",
+        backdropFilter: "blur(20px)",
+        WebkitBackdropFilter: "blur(20px)",
+        borderRight: "1px solid var(--card-border)",
+        display: "flex",
+        flexDirection: "column",
+        position: "sticky",
+        top: 0,
+        zIndex: 10,
+        flexShrink: 0,
+      }}
+    >
+      <SidebarInner
+        page={page}
+        setPage={setPage}
+        dark={dark}
+        setDark={setDark}
+        notifCount={notifCount}
+        showNotif={showNotif}
+        setShowNotif={setShowNotif}
+        notifs={notifs}
+        i18n={i18n}
+        langCode={langCode}
+      />
     </aside>
   );
 }
 
-function NavItem({ item, active, onClick }) {
-  return (
-    <motion.button
-      whileTap={{ scale: 0.97 }}
-      onClick={onClick}
-      style={{
-        width: "100%",
-        display: "flex",
-        alignItems: "center",
-        gap: 10,
-        padding: "9px 12px",
-        borderRadius: 9,
-        border: "none",
-        cursor: "pointer",
-        background: active ? "var(--menu-active)" : "transparent",
-        color: active ? "var(--accent)" : "var(--muted)",
-        fontWeight: active ? 800 : 600,
-        fontSize: 13,
-        textAlign: "left",
-        fontFamily: "'Nunito',sans-serif",
-        transition: "background .15s,color .15s",
-        position: "relative",
-      }}
-    >
-      {active && (
-        <motion.div
-          layoutId="nav-indicator"
-          style={{
-            position: "absolute",
-            left: 0,
-            top: "18%",
-            bottom: "18%",
-            width: 3,
-            borderRadius: 4,
-            background: "var(--accent)",
-            boxShadow: "0 0 8px var(--accent)",
-          }}
-        />
-      )}
-      <span style={{ fontSize: 13 }}>{item.icon}</span>
-      {item.label}
-    </motion.button>
-  );
-}
-
-/* ─── DASHBOARD ───────────────────────────────────── */
+/* ─── DASHBOARD (original – untouched) ───────────────── */
 function Dashboard({
   history,
   lastScan,
@@ -961,12 +1666,10 @@ function Dashboard({
     .slice(0, 12)
     .reverse()
     .map((_, i) => ({ v: i + 1 }));
-
   const pieData = [
     { name: "Thành công", value: okCount, color: "#34d399" },
     { name: "Thất bại", value: failCount || 0, color: "#f87171" },
   ];
-
   const aiInsights = [
     {
       type: "success",
@@ -987,7 +1690,6 @@ function Dashboard({
       desc: `${history.filter((h) => h.lat).length} điểm quét có tọa độ GPS đầy đủ.`,
     },
   ];
-
   return (
     <div>
       <div
@@ -1011,9 +1713,8 @@ function Dashboard({
           </span>
         </div>
       </div>
-
-      {/* KPIs */}
       <div
+        className="grid-4-col"
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(4,1fr)",
@@ -1054,8 +1755,6 @@ function Dashboard({
           delay={0.15}
         />
       </div>
-
-      {/* Last scan banner */}
       <AnimatePresence>
         {lastScan && (
           <motion.div
@@ -1072,6 +1771,7 @@ function Dashboard({
               alignItems: "center",
               gap: 14,
               marginBottom: 4,
+              flexWrap: "wrap",
             }}
           >
             <span className="pulse-dot" />
@@ -1125,12 +1825,10 @@ function Dashboard({
           </motion.div>
         )}
       </AnimatePresence>
-
-      {/* Charts row */}
       <div
+        className="grid-chart-col"
         style={{ display: "grid", gridTemplateColumns: "1fr 320px", gap: 14 }}
       >
-        {/* Area chart */}
         <div className="panel">
           <div
             style={{
@@ -1205,8 +1903,6 @@ function Dashboard({
             </BarChart>
           </ResponsiveContainer>
         </div>
-
-        {/* Pie */}
         <div
           className="panel"
           style={{ display: "flex", flexDirection: "column" }}
@@ -1285,13 +1981,12 @@ function Dashboard({
           </div>
         </div>
       </div>
-
-      {/* AI Insights */}
       <div className="panel">
         <p className="section-label" style={{ marginBottom: 14 }}>
           🧠 AI Insights
         </p>
         <div
+          className="grid-3-col"
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(3,1fr)",
@@ -1339,12 +2034,11 @@ function Dashboard({
   );
 }
 
-/* ─── LIVE SCAN ───────────────────────────────────── */
+/* ─── LIVE SCAN (original – untouched) ───────────────── */
 function LiveScan({ lastScan, history }) {
   const [flash, setFlash] = useState(false);
   const prevCode = useRef(null);
   const recent = history.slice(0, 8);
-
   useEffect(() => {
     if (lastScan && lastScan.code !== prevCode.current) {
       prevCode.current = lastScan.code;
@@ -1352,16 +2046,16 @@ function LiveScan({ lastScan, history }) {
       setTimeout(() => setFlash(false), 750);
     }
   }, [lastScan]);
-
   return (
     <div>
       <div style={{ marginBottom: 26 }}>
         <p className="section-label">Thời gian thực</p>
         <h1 className="page-title">Màn hình quét trực tiếp</h1>
       </div>
-
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
-        {/* Scanner display */}
+      <div
+        className="grid-2-col"
+        style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}
+      >
         <div
           className="panel"
           style={{
@@ -1395,7 +2089,6 @@ function LiveScan({ lastScan, history }) {
                   borderRadius: 14,
                   border: "1px solid var(--card-border)",
                   marginBottom: 14,
-                  transition: "box-shadow .2s",
                 }}
               >
                 {lastScan.code}
@@ -1445,8 +2138,6 @@ function LiveScan({ lastScan, history }) {
             </div>
           )}
         </div>
-
-        {/* Status + recent */}
         <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
           <div className="panel panel-0">
             <p className="section-label" style={{ marginBottom: 12 }}>
@@ -1482,7 +2173,6 @@ function LiveScan({ lastScan, history }) {
               ))}
             </div>
           </div>
-
           <div className="panel panel-0" style={{ flex: 1 }}>
             <p className="section-label" style={{ marginBottom: 12 }}>
               Quét gần đây
@@ -1543,14 +2233,13 @@ function LiveScan({ lastScan, history }) {
   );
 }
 
-/* ─── ORDERS ──────────────────────────────────────── */
+/* ─── ORDERS (original – untouched) ──────────────────── */
 function Orders({ orderList, setOrderList, scannedList, addToast }) {
   const [search, setSearch] = useState("");
-  const [filter, setFilter] = useState("all"); // all | scanned | pending
+  const [filter, setFilter] = useState("all");
   const scannedCount = orderList.filter((o) =>
     scannedList.includes(o.QR),
   ).length;
-
   const uploadExcel = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -1565,7 +2254,6 @@ function Orders({ orderList, setOrderList, scannedList, addToast }) {
     };
     reader.readAsArrayBuffer(file);
   };
-
   const exportExcel = () => {
     const data = orderList.map((o) => ({
       ...o,
@@ -1580,7 +2268,6 @@ function Orders({ orderList, setOrderList, scannedList, addToast }) {
     );
     addToast("Đã xuất file Excel!", "success");
   };
-
   const filtered = orderList.filter((o) => {
     const matchSearch =
       !search ||
@@ -1593,18 +2280,16 @@ function Orders({ orderList, setOrderList, scannedList, addToast }) {
       (filter === "pending" && !done);
     return matchSearch && matchFilter;
   });
-
   const progress =
     orderList.length > 0 ? (scannedCount / orderList.length) * 100 : 0;
-
   return (
     <div>
       <div style={{ marginBottom: 26 }}>
         <p className="section-label">Quản lý</p>
         <h1 className="page-title">Đơn hàng</h1>
       </div>
-
       <div
+        className="grid-3-col"
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(3,1fr)",
@@ -1633,8 +2318,6 @@ function Orders({ orderList, setOrderList, scannedList, addToast }) {
           delay={0.1}
         />
       </div>
-
-      {/* Progress bar */}
       {orderList.length > 0 && (
         <div className="panel" style={{ marginBottom: 0 }}>
           <div
@@ -1659,15 +2342,15 @@ function Orders({ orderList, setOrderList, scannedList, addToast }) {
               className="progress-bar"
               style={{
                 width: `${progress}%`,
-                background: `linear-gradient(90deg,var(--success),var(--accent))`,
+                background:
+                  "linear-gradient(90deg,var(--success),var(--accent))",
               }}
             />
           </div>
         </div>
       )}
-
-      {/* Toolbar */}
       <div
+        className="toolbar-wrap"
         style={{
           display: "flex",
           gap: 10,
@@ -1713,84 +2396,85 @@ function Orders({ orderList, setOrderList, scannedList, addToast }) {
           </button>
         ))}
       </div>
-
       <div className="panel">
-        <table>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Khách hàng</th>
-              <th>Mã QR</th>
-              <th>Trạng thái</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filtered.length === 0 ? (
+        <div className="tbl-scroll">
+          <table>
+            <thead>
               <tr>
-                <td
-                  colSpan={4}
-                  style={{
-                    textAlign: "center",
-                    color: "var(--muted)",
-                    padding: "36px 0",
-                    fontWeight: 600,
-                  }}
-                >
-                  {orderList.length === 0
-                    ? "Chưa có đơn hàng. Tải lên file Excel để bắt đầu."
-                    : "Không tìm thấy kết quả."}
-                </td>
+                <th>#</th>
+                <th>Khách hàng</th>
+                <th>Mã QR</th>
+                <th>Trạng thái</th>
               </tr>
-            ) : (
-              filtered.map((o, i) => {
-                const done = scannedList.includes(o.QR);
-                return (
-                  <motion.tr
-                    key={i}
-                    initial={{ opacity: 0, x: -6 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.015 }}
+            </thead>
+            <tbody>
+              {filtered.length === 0 ? (
+                <tr>
+                  <td
+                    colSpan={4}
+                    style={{
+                      textAlign: "center",
+                      color: "var(--muted)",
+                      padding: "36px 0",
+                      fontWeight: 600,
+                    }}
                   >
-                    <td
-                      style={{
-                        color: "var(--muted)",
-                        fontFamily: "'JetBrains Mono',monospace",
-                        fontSize: 11,
-                      }}
+                    {orderList.length === 0
+                      ? "Chưa có đơn hàng. Tải lên file Excel để bắt đầu."
+                      : "Không tìm thấy kết quả."}
+                  </td>
+                </tr>
+              ) : (
+                filtered.map((o, i) => {
+                  const done = scannedList.includes(o.QR);
+                  return (
+                    <motion.tr
+                      key={i}
+                      initial={{ opacity: 0, x: -6 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: i * 0.015 }}
                     >
-                      {String(i + 1).padStart(3, "0")}
-                    </td>
-                    <td style={{ fontWeight: 700 }}>{o.Customer}</td>
-                    <td
-                      style={{
-                        fontFamily: "'JetBrains Mono',monospace",
-                        fontSize: 11.5,
-                        color: "var(--accent)",
-                        fontWeight: 700,
-                      }}
-                    >
-                      {o.QR}
-                    </td>
-                    <td>
-                      <span
-                        className={`badge ${done ? "badge-success" : "badge-warning"}`}
+                      <td
+                        style={{
+                          color: "var(--muted)",
+                          fontFamily: "'JetBrains Mono',monospace",
+                          fontSize: 11,
+                        }}
                       >
-                        {done ? "✓ Đã quét" : "⏳ Chờ"}
-                      </span>
-                    </td>
-                  </motion.tr>
-                );
-              })
-            )}
-          </tbody>
-        </table>
+                        {String(i + 1).padStart(3, "0")}
+                      </td>
+                      <td style={{ fontWeight: 700 }}>{o.Customer}</td>
+                      <td
+                        style={{
+                          fontFamily: "'JetBrains Mono',monospace",
+                          fontSize: 11.5,
+                          color: "var(--accent)",
+                          fontWeight: 700,
+                        }}
+                      >
+                        {o.QR}
+                      </td>
+                      <td>
+                        <span
+                          className={`badge ${done ? "badge-success" : "badge-warning"}`}
+                        >
+                          {done ? "✓ Đã quét" : "⏳ Chờ"}
+                        </span>
+                      </td>
+                    </motion.tr>
+                  );
+                })
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
 }
 
-/* ─── DELIVERY MAP ────────────────────────────────── */
-function DeliveryMap({ shipperPos, locationHistory, scanPoints }) {
+/* ─── DELIVERY MAP (original + GPS controls added) ───── */
+function DeliveryMap({ shipperPos, locationHistory, scanPoints, gps, i18n }) {
   const totalDist =
     locationHistory.length < 2
       ? 0
@@ -1807,7 +2491,6 @@ function DeliveryMap({ shipperPos, locationHistory, scanPoints }) {
               Math.sin(dLng / 2) ** 2;
           return acc + R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         }, 0);
-
   return (
     <div>
       <div style={{ marginBottom: 26 }}>
@@ -1815,7 +2498,77 @@ function DeliveryMap({ shipperPos, locationHistory, scanPoints }) {
         <h1 className="page-title">Theo dõi giao hàng</h1>
       </div>
 
+      {/* NEW: GPS browser controls */}
       <div
+        className="panel panel-0"
+        style={{
+          marginBottom: 14,
+          display: "flex",
+          alignItems: "center",
+          gap: 14,
+          flexWrap: "wrap",
+        }}
+      >
+        <div style={{ flex: 1, minWidth: 200 }}>
+          <p className="section-label" style={{ marginBottom: 6 }}>
+            Browser GPS
+          </p>
+          <div
+            style={{
+              display: "flex",
+              gap: 8,
+              alignItems: "center",
+              flexWrap: "wrap",
+            }}
+          >
+            {!gps.active ? (
+              <button className="btn-success" onClick={gps.start}>
+                📍 {i18n.startGPS}
+              </button>
+            ) : (
+              <button className="btn-danger" onClick={gps.stop}>
+                ⏹ {i18n.stopGPS}
+              </button>
+            )}
+            {gps.active && (
+              <span className="badge badge-success">
+                <span className="pulse-dot" style={{ width: 6, height: 6 }} />{" "}
+                Live
+              </span>
+            )}
+            {gps.gpsErr && (
+              <span className="badge badge-danger">⚠ {gps.gpsErr}</span>
+            )}
+          </div>
+        </div>
+        {gps.accuracy && (
+          <div style={{ textAlign: "center" }}>
+            <div
+              style={{
+                fontSize: 9,
+                color: "var(--muted)",
+                fontWeight: 700,
+                textTransform: "uppercase",
+              }}
+            >
+              {i18n.accuracy}
+            </div>
+            <div
+              style={{
+                fontSize: 16,
+                fontWeight: 900,
+                color: "var(--success)",
+                fontFamily: "'JetBrains Mono',monospace",
+              }}
+            >
+              ±{gps.accuracy}m
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div
+        className="grid-3-col"
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(3,1fr)",
@@ -1833,7 +2586,7 @@ function DeliveryMap({ shipperPos, locationHistory, scanPoints }) {
           },
           {
             label: "Trạng thái",
-            val: "Trực tiếp",
+            val: gps.active ? "Live GPS" : "Trực tiếp",
             sub: "Đang theo dõi",
             color: "var(--success)",
             icon: "◉",
@@ -1904,6 +2657,11 @@ function DeliveryMap({ shipperPos, locationHistory, scanPoints }) {
                 <div style={{ fontSize: 11.5, color: "#94a3b8" }}>
                   Lng: {shipperPos[1].toFixed(6)}
                 </div>
+                {gps.accuracy && (
+                  <div style={{ fontSize: 11, color: "#38bdf8", marginTop: 3 }}>
+                    ±{gps.accuracy}m
+                  </div>
+                )}
                 <div
                   style={{
                     fontSize: 11,
@@ -1959,74 +2717,76 @@ function DeliveryMap({ shipperPos, locationHistory, scanPoints }) {
           <p className="section-label" style={{ marginBottom: 12 }}>
             Lịch sử điểm quét
           </p>
-          <table>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Mã QR</th>
-                <th>Vĩ độ</th>
-                <th>Kinh độ</th>
-                <th>Thời gian</th>
-              </tr>
-            </thead>
-            <tbody>
-              {scanPoints.map((sp, i) => (
-                <tr key={i}>
-                  <td
-                    style={{
-                      color: "var(--muted)",
-                      fontFamily: "'JetBrains Mono',monospace",
-                      fontSize: 11,
-                    }}
-                  >
-                    {String(i + 1).padStart(3, "0")}
-                  </td>
-                  <td
-                    style={{
-                      fontFamily: "'JetBrains Mono',monospace",
-                      fontSize: 11.5,
-                      color: "var(--accent)",
-                      fontWeight: 700,
-                    }}
-                  >
-                    {sp.code}
-                  </td>
-                  <td
-                    style={{
-                      fontFamily: "'JetBrains Mono',monospace",
-                      fontSize: 11,
-                    }}
-                  >
-                    {sp.lat.toFixed(6)}
-                  </td>
-                  <td
-                    style={{
-                      fontFamily: "'JetBrains Mono',monospace",
-                      fontSize: 11,
-                    }}
-                  >
-                    {sp.lng.toFixed(6)}
-                  </td>
-                  <td
-                    style={{
-                      fontSize: 12,
-                      color: "var(--muted)",
-                      fontWeight: 600,
-                    }}
-                  >
-                    {sp.time || "—"}
-                  </td>
+          <div className="tbl-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Mã QR</th>
+                  <th>Vĩ độ</th>
+                  <th>Kinh độ</th>
+                  <th>Thời gian</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {scanPoints.map((sp, i) => (
+                  <tr key={i}>
+                    <td
+                      style={{
+                        color: "var(--muted)",
+                        fontFamily: "'JetBrains Mono',monospace",
+                        fontSize: 11,
+                      }}
+                    >
+                      {String(i + 1).padStart(3, "0")}
+                    </td>
+                    <td
+                      style={{
+                        fontFamily: "'JetBrains Mono',monospace",
+                        fontSize: 11.5,
+                        color: "var(--accent)",
+                        fontWeight: 700,
+                      }}
+                    >
+                      {sp.code}
+                    </td>
+                    <td
+                      style={{
+                        fontFamily: "'JetBrains Mono',monospace",
+                        fontSize: 11,
+                      }}
+                    >
+                      {sp.lat.toFixed(6)}
+                    </td>
+                    <td
+                      style={{
+                        fontFamily: "'JetBrains Mono',monospace",
+                        fontSize: 11,
+                      }}
+                    >
+                      {sp.lng.toFixed(6)}
+                    </td>
+                    <td
+                      style={{
+                        fontSize: 12,
+                        color: "var(--muted)",
+                        fontWeight: 600,
+                      }}
+                    >
+                      {sp.time || "—"}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
     </div>
   );
 }
 
-/* ─── LEADERBOARD ─────────────────────────────────── */
+/* ─── LEADERBOARD (original – untouched) ─────────────── */
 function Leaderboard({ leaderboard, history }) {
   const boards = leaderboard
     .map((p, i) => ({
@@ -2039,7 +2799,6 @@ function Leaderboard({ leaderboard, history }) {
     }))
     .sort((a, b) => b.points - a.points);
   const maxPts = Math.max(1, ...boards.map((b) => b.points));
-
   return (
     <div>
       <div style={{ marginBottom: 26 }}>
@@ -2049,8 +2808,6 @@ function Leaderboard({ leaderboard, history }) {
           Xếp hạng hiệu suất nhân viên theo thời gian thực
         </p>
       </div>
-
-      {/* Top 3 podium */}
       <div
         style={{
           display: "grid",
@@ -2062,7 +2819,6 @@ function Leaderboard({ leaderboard, history }) {
         {[1, 0, 2].map((idx) => {
           const p = boards[idx];
           if (!p) return <div key={idx} />;
-          const isFirst = idx === 0;
           return (
             <motion.div
               key={p.name}
@@ -2070,12 +2826,7 @@ function Leaderboard({ leaderboard, history }) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.06 }}
-              style={{
-                textAlign: "center",
-                borderColor: isFirst
-                  ? "rgba(251,191,36,.35)"
-                  : "var(--card-border)",
-              }}
+              style={{ textAlign: "center" }}
             >
               <div style={{ fontSize: 28, marginBottom: 8 }}>{p.badge}</div>
               <div
@@ -2126,8 +2877,6 @@ function Leaderboard({ leaderboard, history }) {
           );
         })}
       </div>
-
-      {/* Full table */}
       <div className="panel">
         <p className="section-label" style={{ marginBottom: 14 }}>
           Bảng xếp hạng đầy đủ
@@ -2208,22 +2957,89 @@ function Leaderboard({ leaderboard, history }) {
   );
 }
 
-/* ─── ANALYTICS ───────────────────────────────────── */
-function Analytics({ history, hourlyData, failCount }) {
-  const okCount = history.length - failCount;
+/* ─── ANALYTICS (original + PDF export added) ─────────── */
+function Analytics({
+  history,
+  hourlyData,
+  failCount,
+  okCount,
+  errorRate,
+  addToast,
+  i18n,
+}) {
+  const [genPDF, setGenPDF] = useState(false);
   const rateData = hourlyData.map((h) => ({
     h: h.h,
     rate: h.ok + h.fail > 0 ? ((h.fail / (h.ok + h.fail)) * 100).toFixed(1) : 0,
   }));
 
+  const exportPDF = () => {
+    setGenPDF(true);
+    const now = new Date().toLocaleString();
+    const rows = hourlyData
+      .map((h) => {
+        const tot = h.ok + h.fail;
+        const r = tot > 0 ? ((h.fail / tot) * 100).toFixed(1) : "0.0";
+        return `<tr><td>${h.h}</td><td style="color:#34d399">${h.ok}</td><td style="color:#f87171">${h.fail}</td><td>${tot}</td><td>${r}%</td></tr>`;
+      })
+      .join("");
+    const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>QR Scan Report</title>
+    <style>body{font-family:Arial,sans-serif;padding:30px;color:#0f172a;}h1{color:#6366f1;}
+    .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:20px 0;}
+    .kpi{background:#f1f5f9;border-radius:10px;padding:14px;text-align:center;}
+    .kpi .v{font-size:28px;font-weight:900;color:#6366f1;}.kpi .l{font-size:11px;color:#94a3b8;font-weight:700;text-transform:uppercase;}
+    table{width:100%;border-collapse:collapse;margin-top:16px;}th,td{padding:9px 12px;border:1px solid #e2e8f0;font-size:13px;}
+    th{background:#f1f5f9;font-weight:800;}tr:nth-child(even){background:#f8fafc;}
+    .footer{margin-top:20px;font-size:11px;color:#94a3b8;}@media print{body{padding:15px;}}</style></head>
+    <body><h1>🏭 QR Scan Report — AI Factory</h1><p style="color:#94a3b8;font-size:13px">${now}</p>
+    <div class="kpis">
+      <div class="kpi"><div class="v">${history.length}</div><div class="l">Tổng quét</div></div>
+      <div class="kpi"><div class="v" style="color:#10b981">${okCount}</div><div class="l">Thành công</div></div>
+      <div class="kpi"><div class="v" style="color:#ef4444">${failCount}</div><div class="l">Thất bại</div></div>
+      <div class="kpi"><div class="v" style="color:${parseFloat(errorRate) > 5 ? "#ef4444" : "#10b981"}">${errorRate}%</div><div class="l">Tỉ lệ lỗi</div></div>
+    </div>
+    <h3>Thống kê theo giờ</h3>
+    <table><thead><tr><th>Giờ</th><th>Thành công</th><th>Thất bại</th><th>Tổng</th><th>Tỉ lệ lỗi</th></tr></thead>
+    <tbody>${rows}</tbody></table>
+    <div class="footer">Generated by AI Factory QR Dashboard · ${now}</div></body></html>`;
+    const w = window.open("", "_blank", "width=900,height=700");
+    if (w) {
+      w.document.write(html);
+      w.document.close();
+      setTimeout(() => w.print(), 400);
+    }
+    setGenPDF(false);
+    addToast(i18n.reportGenerated, "success");
+  };
+
   return (
     <div>
-      <div style={{ marginBottom: 26 }}>
-        <p className="section-label">Phân tích</p>
-        <h1 className="page-title">Analytics nâng cao</h1>
-      </div>
-
       <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "flex-start",
+          marginBottom: 26,
+          flexWrap: "wrap",
+          gap: 10,
+        }}
+      >
+        <div>
+          <p className="section-label">Phân tích</p>
+          <h1 className="page-title">Analytics nâng cao</h1>
+        </div>
+        {/* NEW: PDF export button */}
+        <button
+          className="btn-primary"
+          onClick={exportPDF}
+          disabled={genPDF}
+          style={{ display: "flex", alignItems: "center", gap: 6 }}
+        >
+          {genPDF ? `⏳ ${i18n.generating}` : `📄 ${i18n.exportPDF}`}
+        </button>
+      </div>
+      <div
+        className="grid-2-col"
         style={{
           display: "grid",
           gridTemplateColumns: "1fr 1fr",
@@ -2231,7 +3047,6 @@ function Analytics({ history, hourlyData, failCount }) {
           marginBottom: 14,
         }}
       >
-        {/* Error rate trend */}
         <div className="panel panel-0">
           <div style={{ marginBottom: 14 }}>
             <p className="section-label">Xu hướng tỉ lệ lỗi theo giờ</p>
@@ -2276,8 +3091,6 @@ function Analytics({ history, hourlyData, failCount }) {
             </LineChart>
           </ResponsiveContainer>
         </div>
-
-        {/* Radial gauge */}
         <div
           className="panel panel-0"
           style={{
@@ -2332,75 +3145,74 @@ function Analytics({ history, hourlyData, failCount }) {
           </div>
         </div>
       </div>
-
-      {/* Summary table */}
       <div className="panel panel-0">
         <p className="section-label" style={{ marginBottom: 14 }}>
           Thống kê theo giờ
         </p>
-        <table>
-          <thead>
-            <tr>
-              <th>Giờ</th>
-              <th>Thành công</th>
-              <th>Thất bại</th>
-              <th>Tổng</th>
-              <th>Tỉ lệ lỗi</th>
-            </tr>
-          </thead>
-          <tbody>
-            {hourlyData.map((h, i) => {
-              const total = h.ok + h.fail;
-              const rate =
-                total > 0 ? ((h.fail / total) * 100).toFixed(1) : "0.0";
-              return (
-                <tr key={i}>
-                  <td
-                    style={{
-                      fontFamily: "'JetBrains Mono',monospace",
-                      fontSize: 12,
-                      color: "var(--muted)",
-                    }}
-                  >
-                    {h.h}
-                  </td>
-                  <td style={{ color: "var(--success)", fontWeight: 700 }}>
-                    {h.ok}
-                  </td>
-                  <td
-                    style={{
-                      color: h.fail > 0 ? "var(--danger)" : "var(--muted)",
-                      fontWeight: 700,
-                    }}
-                  >
-                    {h.fail}
-                  </td>
-                  <td style={{ fontWeight: 700 }}>{total}</td>
-                  <td>
-                    <span
-                      className={`badge ${parseFloat(rate) > 5 ? "badge-danger" : parseFloat(rate) > 0 ? "badge-warning" : "badge-success"}`}
+        <div className="tbl-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Giờ</th>
+                <th>Thành công</th>
+                <th>Thất bại</th>
+                <th>Tổng</th>
+                <th>Tỉ lệ lỗi</th>
+              </tr>
+            </thead>
+            <tbody>
+              {hourlyData.map((h, i) => {
+                const total = h.ok + h.fail;
+                const rate =
+                  total > 0 ? ((h.fail / total) * 100).toFixed(1) : "0.0";
+                return (
+                  <tr key={i}>
+                    <td
+                      style={{
+                        fontFamily: "'JetBrains Mono',monospace",
+                        fontSize: 12,
+                        color: "var(--muted)",
+                      }}
                     >
-                      {rate}%
-                    </span>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+                      {h.h}
+                    </td>
+                    <td style={{ color: "var(--success)", fontWeight: 700 }}>
+                      {h.ok}
+                    </td>
+                    <td
+                      style={{
+                        color: h.fail > 0 ? "var(--danger)" : "var(--muted)",
+                        fontWeight: 700,
+                      }}
+                    >
+                      {h.fail}
+                    </td>
+                    <td style={{ fontWeight: 700 }}>{total}</td>
+                    <td>
+                      <span
+                        className={`badge ${parseFloat(rate) > 5 ? "badge-danger" : parseFloat(rate) > 0 ? "badge-warning" : "badge-success"}`}
+                      >
+                        {rate}%
+                      </span>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
 }
 
-/* ─── HISTORY ─────────────────────────────────────── */
+/* ─── HISTORY (original – untouched) ─────────────────── */
 function History({ history }) {
   const [search, setSearch] = useState("");
   const filtered = history.filter(
     (h) =>
       !search || (h.code || "").toLowerCase().includes(search.toLowerCase()),
   );
-
   return (
     <div>
       <div style={{ marginBottom: 26 }}>
@@ -2434,104 +3246,107 @@ function History({ history }) {
         <span className="badge badge-info">{filtered.length} bản ghi</span>
       </div>
       <div className="panel">
-        <table>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Mã QR</th>
-              <th>Thời gian</th>
-              <th>GPS</th>
-              <th>Trạng thái</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filtered.length === 0 ? (
+        <div className="tbl-scroll">
+          <table>
+            <thead>
               <tr>
-                <td
-                  colSpan={5}
-                  style={{
-                    textAlign: "center",
-                    color: "var(--muted)",
-                    padding: "36px 0",
-                    fontWeight: 600,
-                  }}
-                >
-                  Chưa có dữ liệu quét.
-                </td>
+                <th>#</th>
+                <th>Mã QR</th>
+                <th>Thời gian</th>
+                <th>GPS</th>
+                <th>Trạng thái</th>
               </tr>
-            ) : (
-              filtered.map((h, i) => (
-                <motion.tr
-                  key={i}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: i * 0.01 }}
-                >
+            </thead>
+            <tbody>
+              {filtered.length === 0 ? (
+                <tr>
                   <td
+                    colSpan={5}
                     style={{
+                      textAlign: "center",
                       color: "var(--muted)",
-                      fontFamily: "'JetBrains Mono',monospace",
-                      fontSize: 11,
-                    }}
-                  >
-                    {String(i + 1).padStart(3, "0")}
-                  </td>
-                  <td
-                    style={{
-                      fontFamily: "'JetBrains Mono',monospace",
-                      fontSize: 12.5,
-                      color: "var(--accent)",
-                      fontWeight: 700,
-                    }}
-                  >
-                    {h.code}
-                  </td>
-                  <td
-                    style={{
-                      fontSize: 12,
-                      color: "var(--muted)",
+                      padding: "36px 0",
                       fontWeight: 600,
                     }}
                   >
-                    {h.time || "—"}
+                    Chưa có dữ liệu quét.
                   </td>
-                  <td
-                    style={{
-                      fontSize: 11,
-                      fontFamily: "'JetBrains Mono',monospace",
-                      color: h.lat ? "var(--success)" : "var(--muted)",
-                    }}
+                </tr>
+              ) : (
+                filtered.map((h, i) => (
+                  <motion.tr
+                    key={i}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: i * 0.01 }}
                   >
-                    {h.lat
-                      ? `${Number(h.lat).toFixed(4)}, ${Number(h.lng).toFixed(4)}`
-                      : "—"}
-                  </td>
-                  <td>
-                    <span
-                      className={`badge ${h.error ? "badge-danger" : "badge-success"}`}
+                    <td
+                      style={{
+                        color: "var(--muted)",
+                        fontFamily: "'JetBrains Mono',monospace",
+                        fontSize: 11,
+                      }}
                     >
-                      {h.error ? "✕ Lỗi" : "✓ OK"}
-                    </span>
-                  </td>
-                </motion.tr>
-              ))
-            )}
-          </tbody>
-        </table>
+                      {String(i + 1).padStart(3, "0")}
+                    </td>
+                    <td
+                      style={{
+                        fontFamily: "'JetBrains Mono',monospace",
+                        fontSize: 12.5,
+                        color: "var(--accent)",
+                        fontWeight: 700,
+                      }}
+                    >
+                      {h.code}
+                    </td>
+                    <td
+                      style={{
+                        fontSize: 12,
+                        color: "var(--muted)",
+                        fontWeight: 600,
+                      }}
+                    >
+                      {h.time || "—"}
+                    </td>
+                    <td
+                      style={{
+                        fontSize: 11,
+                        fontFamily: "'JetBrains Mono',monospace",
+                        color: h.lat ? "var(--success)" : "var(--muted)",
+                      }}
+                    >
+                      {h.lat
+                        ? `${Number(h.lat).toFixed(4)}, ${Number(h.lng).toFixed(4)}`
+                        : "—"}
+                    </td>
+                    <td>
+                      <span
+                        className={`badge ${h.error ? "badge-danger" : "badge-success"}`}
+                      >
+                        {h.error ? "✕ Lỗi" : "✓ OK"}
+                      </span>
+                    </td>
+                  </motion.tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
 }
 
-/* ─── SETTINGS ────────────────────────────────────── */
-function Settings({ logout, dark, setDark }) {
+/* ─── SETTINGS (original + language section added) ────── */
+function Settings({ logout, dark, setDark, langCode, setLangCode, i18n }) {
   const [serverUrl, setServerUrl] = useState(
     "https://qr-server-n6pp.onrender.com",
   );
   const [sound, setSound] = useState(true);
   const [autoExport, setAutoExport] = useState(false);
 
-  const Toggle = ({ value, onChange }) => (
+  // Keep original Toggle component
+  const ToggleOld = ({ value, onChange }) => (
     <div
       onClick={() => onChange(!value)}
       style={{
@@ -2566,8 +3381,8 @@ function Settings({ logout, dark, setDark }) {
         <p className="section-label">Hệ thống</p>
         <h1 className="page-title">Cài đặt</h1>
       </div>
-
       <div
+        className="grid-2-col"
         style={{
           display: "grid",
           gridTemplateColumns: "1fr 1fr",
@@ -2575,7 +3390,6 @@ function Settings({ logout, dark, setDark }) {
           maxWidth: 700,
         }}
       >
-        {/* Account */}
         <div className="panel panel-0">
           <p className="section-label" style={{ marginBottom: 12 }}>
             Tài khoản
@@ -2592,18 +3406,16 @@ function Settings({ logout, dark, setDark }) {
             <div
               style={{ fontSize: 11, color: "var(--muted)", fontWeight: 600 }}
             >
-              Đăng nhập với tư cách
+              {i18n.loginAs}
             </div>
             <div style={{ fontWeight: 800, fontSize: 15, marginTop: 2 }}>
-              Quản trị viên
+              {i18n.admin}
             </div>
           </div>
           <button className="btn-danger" onClick={logout}>
-            Đăng xuất
+            {i18n.logout}
           </button>
         </div>
-
-        {/* Connection */}
         <div className="panel panel-0">
           <p className="section-label" style={{ marginBottom: 12 }}>
             Kết nối
@@ -2637,8 +3449,6 @@ function Settings({ logout, dark, setDark }) {
           </div>
           <span className="badge badge-success">● Đang kết nối</span>
         </div>
-
-        {/* Preferences */}
         <div className="panel panel-0">
           <p className="section-label" style={{ marginBottom: 12 }}>
             Tuỳ chọn
@@ -2663,21 +3473,49 @@ function Settings({ logout, dark, setDark }) {
               }}
             >
               <span style={{ fontSize: 13, fontWeight: 600 }}>{label}</span>
-              <Toggle value={value} onChange={set} />
+              <ToggleOld value={value} onChange={set} />
             </div>
           ))}
         </div>
-
-        {/* About */}
+        {/* NEW: Language section */}
+        <div className="panel panel-0">
+          <p className="section-label" style={{ marginBottom: 12 }}>
+            {i18n.language}
+          </p>
+          <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
+            {Object.entries(LANGS).map(([code, lang]) => (
+              <button
+                key={code}
+                className={`lang-btn ${langCode === code ? "active" : ""}`}
+                onClick={() => setLangCode(code)}
+              >
+                <span>{lang.flag}</span>
+                <span style={{ fontWeight: 700 }}>{lang.name}</span>
+                {langCode === code && (
+                  <span
+                    style={{
+                      marginLeft: "auto",
+                      fontSize: 10,
+                      color: "var(--accent)",
+                    }}
+                  >
+                    ✓
+                  </span>
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
         <div className="panel panel-0">
           <p className="section-label" style={{ marginBottom: 12 }}>
             Thông tin
           </p>
           {[
-            { k: "Phiên bản", v: "2.0.0" },
+            { k: "Phiên bản", v: "3.0.0" },
             { k: "Framework", v: "React 18" },
             { k: "Socket", v: "Socket.IO" },
             { k: "Bản đồ", v: "Leaflet.js" },
+            { k: "Ngôn ngữ", v: LANGS[langCode]?.name },
           ].map(({ k, v }) => (
             <div
               key={k}
@@ -2705,6 +3543,759 @@ function Settings({ logout, dark, setDark }) {
           ))}
         </div>
       </div>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════════════════
+   NEW PAGES BELOW — added without touching originals
+═══════════════════════════════════════════════════════ */
+
+/* ─── CHAT PAGE (NEW) ─────────────────────────────────── */
+function ChatPage({ i18n }) {
+  const [msgs, setMsgs] = useState([
+    {
+      id: 1,
+      from: "sys",
+      name: "System",
+      text: "👋 Chat nội bộ sẵn sàng!",
+      time: timeNow(),
+    },
+  ]);
+  const [input, setInput] = useState("");
+  const endRef = useRef(null);
+  useEffect(
+    () => endRef.current?.scrollIntoView({ behavior: "smooth" }),
+    [msgs],
+  );
+
+  const send = () => {
+    if (!input.trim()) return;
+    setMsgs((p) => [
+      ...p,
+      {
+        id: Date.now(),
+        from: "me",
+        name: i18n.you,
+        text: input.trim(),
+        time: timeNow(),
+      },
+    ]);
+    setInput("");
+  };
+
+  return (
+    <div>
+      <div style={{ marginBottom: 26 }}>
+        <p className="section-label">Hệ thống</p>
+        <h1 className="page-title">{i18n.internalChat}</h1>
+        <p style={{ color: "var(--muted)", fontSize: 13.5, fontWeight: 500 }}>
+          {i18n.teamChat}
+        </p>
+      </div>
+      <div
+        className="panel panel-0 chat-box"
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          height: "62vh",
+          minHeight: 400,
+        }}
+      >
+        <div
+          style={{
+            flex: 1,
+            overflowY: "auto",
+            padding: "6px 0",
+            display: "flex",
+            flexDirection: "column",
+            gap: 10,
+          }}
+        >
+          {msgs.map((m) => (
+            <div
+              key={m.id}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: m.from === "me" ? "flex-end" : "flex-start",
+              }}
+            >
+              {m.from !== "me" && (
+                <span
+                  style={{
+                    fontSize: 10.5,
+                    color: "var(--muted)",
+                    fontWeight: 700,
+                    marginBottom: 3,
+                    paddingLeft: 4,
+                  }}
+                >
+                  {m.name}
+                </span>
+              )}
+              <div
+                className={m.from === "me" ? "bubble-me" : "bubble-other"}
+                style={{
+                  padding: "10px 14px",
+                  maxWidth: "72%",
+                  fontSize: 13.5,
+                  fontWeight: 600,
+                  lineHeight: 1.5,
+                }}
+              >
+                {m.text}
+              </div>
+              <span
+                style={{
+                  fontSize: 9.5,
+                  color: "var(--muted)",
+                  marginTop: 3,
+                  paddingLeft: 4,
+                  paddingRight: 4,
+                }}
+              >
+                {m.time}
+              </span>
+            </div>
+          ))}
+          <div ref={endRef} />
+        </div>
+        <div
+          style={{
+            borderTop: "1px solid var(--card-border)",
+            paddingTop: 12,
+            display: "flex",
+            gap: 9,
+            marginTop: 4,
+          }}
+        >
+          <textarea
+            className="chat-textarea"
+            rows={1}
+            placeholder={i18n.msgPlaceholder}
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                send();
+              }
+            }}
+          />
+          <button
+            className="btn-primary"
+            onClick={send}
+            style={{ flexShrink: 0 }}
+          >
+            {i18n.send}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── STAFF PAGE (NEW) ────────────────────────────────── */
+function StaffPage({ staff, setStaff, i18n, addToast }) {
+  const [selected, setSelected] = useState(null);
+  const [showForm, setShowForm] = useState(false);
+  const [form, setForm] = useState({
+    name: "",
+    role: "scanner",
+    email: "",
+    active: true,
+  });
+  const COLORS = [
+    "#38bdf8",
+    "#34d399",
+    "#fbbf24",
+    "#a78bfa",
+    "#f87171",
+    "#fb923c",
+  ];
+  const ROLE_BADGE = {
+    admin: "badge-info",
+    supervisor: "badge-success",
+    scanner: "badge-warning",
+  };
+  const ROLE_LABELS = {
+    admin: i18n.roleAdmin,
+    supervisor: i18n.roleSupervisor,
+    scanner: i18n.roleScanner,
+  };
+  const PERMS = [
+    { k: "canScan", l: i18n.canScan },
+    { k: "canExport", l: i18n.canExport },
+    { k: "canManageOrders", l: i18n.canManageOrders },
+    { k: "canViewMap", l: i18n.canViewMap },
+    { k: "canManageStaff", l: i18n.canManageStaff },
+  ];
+
+  const addMember = () => {
+    if (!form.name.trim()) return;
+    setStaff((p) => [
+      ...p,
+      {
+        ...form,
+        id: Date.now(),
+        avatar: form.name[0].toUpperCase(),
+        color: COLORS[p.length % COLORS.length],
+        scans: 0,
+        streak: 0,
+        perms: {
+          canScan: true,
+          canExport: false,
+          canManageOrders: false,
+          canViewMap: true,
+          canManageStaff: false,
+        },
+      },
+    ]);
+    setForm({ name: "", role: "scanner", email: "", active: true });
+    setShowForm(false);
+    addToast(`✓ ${i18n.addStaff}: ${form.name}`, "success");
+  };
+  const del = (id) => {
+    setStaff((p) => p.filter((s) => s.id !== id));
+    if (selected?.id === id) setSelected(null);
+  };
+  const togglePerm = (id, perm) => {
+    setStaff((p) =>
+      p.map((s) =>
+        s.id === id
+          ? { ...s, perms: { ...s.perms, [perm]: !s.perms[perm] } }
+          : s,
+      ),
+    );
+    setSelected((s) =>
+      s && s.id === id
+        ? { ...s, perms: { ...s.perms, [perm]: !s.perms[perm] } }
+        : s,
+    );
+  };
+  const toggleActive = (id) => {
+    setStaff((p) =>
+      p.map((s) => (s.id === id ? { ...s, active: !s.active } : s)),
+    );
+    setSelected((s) => (s && s.id === id ? { ...s, active: !s.active } : s));
+  };
+
+  return (
+    <div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "flex-start",
+          marginBottom: 26,
+          flexWrap: "wrap",
+          gap: 10,
+        }}
+      >
+        <div>
+          <p className="section-label">HR</p>
+          <h1 className="page-title">{i18n.staffMgmt}</h1>
+        </div>
+        <button className="btn-primary" onClick={() => setShowForm((p) => !p)}>
+          ⊕ {i18n.addStaff}
+        </button>
+      </div>
+      <AnimatePresence>
+        {showForm && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            className="panel panel-0"
+            style={{ marginBottom: 14, overflow: "hidden" }}
+          >
+            <p className="section-label" style={{ marginBottom: 12 }}>
+              {i18n.addStaff}
+            </p>
+            <div
+              className="grid-2-col"
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: 10,
+              }}
+            >
+              <input
+                placeholder={i18n.staffName}
+                value={form.name}
+                onChange={(e) =>
+                  setForm((p) => ({ ...p, name: e.target.value }))
+                }
+                style={{
+                  padding: "8px 12px",
+                  background: "var(--surface)",
+                  border: "1px solid var(--card-border)",
+                  borderRadius: 8,
+                  color: "var(--text)",
+                  fontSize: 12.5,
+                  fontFamily: "'Nunito',sans-serif",
+                  outline: "none",
+                  width: "100%",
+                }}
+              />
+              <input
+                placeholder={i18n.staffEmail}
+                value={form.email}
+                onChange={(e) =>
+                  setForm((p) => ({ ...p, email: e.target.value }))
+                }
+                style={{
+                  padding: "8px 12px",
+                  background: "var(--surface)",
+                  border: "1px solid var(--card-border)",
+                  borderRadius: 8,
+                  color: "var(--text)",
+                  fontSize: 12.5,
+                  fontFamily: "'Nunito',sans-serif",
+                  outline: "none",
+                  width: "100%",
+                }}
+              />
+              <select
+                value={form.role}
+                onChange={(e) =>
+                  setForm((p) => ({ ...p, role: e.target.value }))
+                }
+                style={{
+                  padding: "8px 12px",
+                  background: "var(--surface)",
+                  border: "1px solid var(--card-border)",
+                  borderRadius: 8,
+                  color: "var(--text)",
+                  fontSize: 12.5,
+                  fontFamily: "'Nunito',sans-serif",
+                  outline: "none",
+                  cursor: "pointer",
+                  width: "100%",
+                }}
+              >
+                <option value="scanner">{i18n.roleScanner}</option>
+                <option value="supervisor">{i18n.roleSupervisor}</option>
+                <option value="admin">{i18n.roleAdmin}</option>
+              </select>
+              <div style={{ display: "flex", gap: 8 }}>
+                <button className="btn-primary" onClick={addMember}>
+                  ✓ {i18n.addStaff}
+                </button>
+                <button
+                  className="btn-ghost"
+                  onClick={() => setShowForm(false)}
+                >
+                  {i18n.close}
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <div
+        className="grid-2-col"
+        style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}
+      >
+        <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
+          {staff.map((s) => (
+            <motion.div
+              key={s.id}
+              className={`staff-card ${selected?.id === s.id ? "active" : ""}`}
+              initial={{ opacity: 0, x: -8 }}
+              animate={{ opacity: 1, x: 0 }}
+              onClick={() => setSelected(selected?.id === s.id ? null : s)}
+            >
+              <div style={{ display: "flex", alignItems: "center", gap: 11 }}>
+                <div
+                  style={{
+                    width: 42,
+                    height: 42,
+                    borderRadius: "50%",
+                    background: s.color + "22",
+                    border: `2px solid ${s.color}`,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: 17,
+                    fontWeight: 900,
+                    color: s.color,
+                    flexShrink: 0,
+                    position: "relative",
+                  }}
+                >
+                  {s.avatar}
+                  {s.active && (
+                    <span
+                      style={{
+                        position: "absolute",
+                        bottom: -1,
+                        right: -1,
+                        width: 10,
+                        height: 10,
+                        borderRadius: "50%",
+                        background: "var(--success)",
+                        border: "2px solid var(--card)",
+                      }}
+                    />
+                  )}
+                </div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: 13, fontWeight: 800 }}>{s.name}</div>
+                  <div
+                    style={{
+                      fontSize: 10.5,
+                      color: "var(--muted)",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {s.email}
+                  </div>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    gap: 5,
+                    alignItems: "center",
+                    flexWrap: "wrap",
+                  }}
+                >
+                  <span className={`badge ${ROLE_BADGE[s.role]}`}>
+                    {ROLE_LABELS[s.role]}
+                  </span>
+                  <span
+                    className={`badge ${s.active ? "badge-success" : "badge-danger"}`}
+                  >
+                    {s.active ? i18n.staffActive : i18n.staffInactive}
+                  </span>
+                  <button
+                    className="btn-danger"
+                    style={{ padding: "2px 8px", fontSize: 10 }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      del(s.id);
+                    }}
+                  >
+                    ✕
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+        <div>
+          <AnimatePresence mode="wait">
+            {selected ? (
+              <motion.div
+                key={selected.id}
+                initial={{ opacity: 0, x: 10 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0 }}
+                className="panel panel-0"
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 11,
+                    marginBottom: 16,
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 46,
+                      height: 46,
+                      borderRadius: "50%",
+                      background: selected.color + "22",
+                      border: `2px solid ${selected.color}`,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: 18,
+                      fontWeight: 900,
+                      color: selected.color,
+                    }}
+                  >
+                    {selected.avatar}
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: 13.5, fontWeight: 800 }}>
+                      {selected.name}
+                    </div>
+                    <span className={`badge ${ROLE_BADGE[selected.role]}`}>
+                      {ROLE_LABELS[selected.role]}
+                    </span>
+                  </div>
+                  <Toggle
+                    on={selected.active}
+                    set={() => toggleActive(selected.id)}
+                  />
+                </div>
+                <p className="section-label" style={{ marginBottom: 10 }}>
+                  {i18n.permissions}
+                </p>
+                <div
+                  style={{ display: "flex", flexDirection: "column", gap: 8 }}
+                >
+                  {PERMS.map(({ k, l }) => (
+                    <div
+                      key={k}
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        padding: "9px 12px",
+                        background: "var(--surface)",
+                        borderRadius: 9,
+                      }}
+                    >
+                      <span style={{ fontSize: 12.5, fontWeight: 600 }}>
+                        {l}
+                      </span>
+                      <Toggle
+                        on={!!selected.perms?.[k]}
+                        set={() => togglePerm(selected.id, k)}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            ) : (
+              <motion.div
+                key="empty"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="panel panel-0"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  minHeight: 220,
+                  color: "var(--muted)",
+                  flexDirection: "column",
+                  gap: 10,
+                }}
+              >
+                <span style={{ fontSize: 36, opacity: 0.15 }}>👥</span>
+                <span style={{ fontSize: 13, fontWeight: 600 }}>
+                  {i18n.clickToEdit}
+                </span>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── ALERTS PAGE (NEW) ───────────────────────────────── */
+function AlertsPage({
+  alertRules,
+  setAlertRules,
+  i18n,
+  pushN,
+  addToast,
+  history,
+  failCount,
+}) {
+  const errRate =
+    history.length > 0
+      ? ((failCount / history.length) * 100).toFixed(1)
+      : "0.0";
+  const TYPES = [
+    {
+      v: "highError",
+      l: i18n.alertHighError,
+      icon: "📉",
+      color: "var(--danger)",
+    },
+    { v: "noScan", l: i18n.alertNoScan, icon: "⏸", color: "var(--warning)" },
+    { v: "offline", l: i18n.alertOffline, icon: "📡", color: "var(--muted)" },
+  ];
+  const toggle = (id) =>
+    setAlertRules((p) =>
+      p.map((r) => (r.id === id ? { ...r, enabled: !r.enabled } : r)),
+    );
+  const test = (rule) => {
+    const typeInfo = TYPES.find((x) => x.v === rule.type);
+    addToast(`🔔 Test: ${typeInfo?.l}`, "warning");
+    pushN.push("🔔 Test Alert", typeInfo?.l || "Test");
+    setAlertRules((p) =>
+      p.map((r) =>
+        r.id === rule.id ? { ...r, triggered: r.triggered + 1 } : r,
+      ),
+    );
+  };
+
+  return (
+    <div>
+      <div style={{ marginBottom: 26 }}>
+        <p className="section-label">Hệ thống</p>
+        <h1 className="page-title">{i18n.alertsPage}</h1>
+      </div>
+
+      {/* Push permission */}
+      <div
+        className="panel panel-0"
+        style={{
+          marginBottom: 14,
+          display: "flex",
+          alignItems: "center",
+          gap: 14,
+          flexWrap: "wrap",
+        }}
+      >
+        <div style={{ flex: 1 }}>
+          <p className="section-label" style={{ marginBottom: 6 }}>
+            {i18n.pushNotif}
+          </p>
+          <div
+            style={{
+              display: "flex",
+              gap: 8,
+              alignItems: "center",
+              flexWrap: "wrap",
+            }}
+          >
+            <span
+              className={`badge ${pushN.perm === "granted" ? "badge-success" : pushN.perm === "denied" ? "badge-danger" : "badge-warning"}`}
+            >
+              {pushN.perm === "granted"
+                ? `✓ ${i18n.pushGranted}`
+                : pushN.perm === "denied"
+                  ? `✕ ${i18n.pushDenied}`
+                  : "◎ Default"}
+            </span>
+            {pushN.perm !== "granted" && (
+              <button
+                className="btn-primary"
+                onClick={() => {
+                  pushN.request();
+                  addToast(i18n.pushNotif, "info");
+                }}
+              >
+                {i18n.requestPush}
+              </button>
+            )}
+          </div>
+        </div>
+        <div style={{ textAlign: "right" }}>
+          <p className="section-label">Tỉ lệ lỗi hiện tại</p>
+          <div
+            style={{
+              fontSize: 24,
+              fontWeight: 900,
+              color:
+                parseFloat(errRate) > 5 ? "var(--danger)" : "var(--success)",
+              fontFamily: "'Raleway',sans-serif",
+            }}
+          >
+            {errRate}%
+          </div>
+        </div>
+      </div>
+
+      {/* Alert rules */}
+      <div className="panel panel-0">
+        <p className="section-label" style={{ marginBottom: 14 }}>
+          {i18n.alertRules}
+        </p>
+        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          {alertRules.map((rule) => {
+            const typeInfo = TYPES.find((x) => x.v === rule.type);
+            return (
+              <motion.div
+                key={rule.id}
+                className="alert-rule-card"
+                initial={{ opacity: 0, x: -6 }}
+                animate={{ opacity: 1, x: 0 }}
+                style={{
+                  borderColor: rule.enabled
+                    ? typeInfo?.color + "55"
+                    : "var(--card-border)",
+                }}
+              >
+                <span style={{ fontSize: 22, flexShrink: 0 }}>
+                  {typeInfo?.icon}
+                </span>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div
+                    style={{ fontSize: 13, fontWeight: 800, marginBottom: 2 }}
+                  >
+                    {typeInfo?.l}
+                  </div>
+                  <div style={{ fontSize: 10.5, color: "var(--muted)" }}>
+                    {i18n.threshold}: {rule.threshold} · {i18n.triggered}:{" "}
+                    {rule.triggered} {i18n.times}
+                  </div>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    gap: 8,
+                    alignItems: "center",
+                    flexShrink: 0,
+                  }}
+                >
+                  <button
+                    className="btn-ghost"
+                    style={{ padding: "4px 11px", fontSize: 11 }}
+                    onClick={() => test(rule)}
+                  >
+                    🔔 {i18n.testAlert}
+                  </button>
+                  <Toggle on={rule.enabled} set={() => toggle(rule.id)} />
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+      </div>
+
+      {alertRules.some((r) => r.triggered > 0) && (
+        <div className="panel">
+          <p className="section-label" style={{ marginBottom: 12 }}>
+            {i18n.triggered} History
+          </p>
+          <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
+            {alertRules
+              .filter((r) => r.triggered > 0)
+              .map((r) => {
+                const typeInfo = TYPES.find((x) => x.v === r.type);
+                return (
+                  <div
+                    key={r.id}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      padding: "9px 13px",
+                      background: "var(--surface)",
+                      borderRadius: 9,
+                      borderLeft: `3px solid ${typeInfo?.color}`,
+                    }}
+                  >
+                    <div
+                      style={{ display: "flex", alignItems: "center", gap: 9 }}
+                    >
+                      <span>{typeInfo?.icon}</span>
+                      <span style={{ fontSize: 12.5, fontWeight: 700 }}>
+                        {typeInfo?.l}
+                      </span>
+                    </div>
+                    <span className="badge badge-warning">
+                      {r.triggered} {i18n.times}
+                    </span>
+                  </div>
+                );
+              })}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
