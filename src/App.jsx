@@ -3710,42 +3710,6 @@ function ChatPage({ i18n }) {
         </div>
       </div>
 
-      {/* Hướng dẫn server */}
-      <div
-        style={{
-          background: "rgba(251,191,36,.07)",
-          border: "1px solid rgba(251,191,36,.25)",
-          borderRadius: 11,
-          padding: "10px 14px",
-          marginBottom: 14,
-          fontSize: 12,
-          color: "var(--warning)",
-          fontWeight: 600,
-        }}
-      >
-        ⚠️ Cần thêm vào server Node.js:
-        <code
-          style={{
-            display: "block",
-            background: "var(--surface)",
-            borderRadius: 7,
-            padding: "7px 11px",
-            marginTop: 6,
-            fontSize: 11.5,
-            color: "var(--accent)",
-            fontFamily: "'JetBrains Mono',monospace",
-            whiteSpace: "pre-wrap",
-          }}
-        >
-          {`socket.on("chat_message", (data) => {
-  socket.broadcast.emit("chat_message", data);
-});
-socket.on("chat_join", (data) => {
-  io.emit("chat_online", /* đếm số client */);
-});`}
-        </code>
-      </div>
-
       <div
         className="panel panel-0 chat-box"
         style={{
