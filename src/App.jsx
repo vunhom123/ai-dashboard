@@ -3551,62 +3551,215 @@ function Settings({ logout, dark, setDark, langCode, setLangCode, i18n }) {
    NEW PAGES BELOW — added without touching originals
 ═══════════════════════════════════════════════════════ */
 
-/* ─── CHAT PAGE (NEW) ─────────────────────────────────── */
+/* ─── CHAT PAGE — socket thật ─────────────────────────── */
 function ChatPage({ i18n }) {
   const [msgs, setMsgs] = useState([
     {
-      id: 1,
+      id: "sys-1",
       from: "sys",
       name: "System",
-      text: "👋 Chat nội bộ sẵn sàng!",
+      text: "👋 Chat nội bộ sẵn sàng! Mọi người trong cùng mạng đều thấy tin nhắn này.",
       time: timeNow(),
     },
   ]);
   const [input, setInput] = useState("");
+  const [myName, setMyName] = useState("");
+  const [nameSet, setNameSet] = useState(false);
+  const [online, setOnline] = useState(1);
   const endRef = useRef(null);
+  const myNameRef = useRef("");
+
   useEffect(
     () => endRef.current?.scrollIntoView({ behavior: "smooth" }),
     [msgs],
   );
 
-  const send = () => {
-    if (!input.trim()) return;
+  // Lắng nghe tin nhắn từ server
+  useEffect(() => {
+    socket.on("chat_message", (data) => {
+      // Chỉ thêm nếu không phải tin mình vừa gửi (tránh duplicate)
+      setMsgs((p) => {
+        if (p.find((m) => m.id === data.id)) return p;
+        return [...p, { ...data, from: "other" }];
+      });
+    });
+    socket.on("chat_online", (count) => setOnline(count));
+    return () => {
+      socket.off("chat_message");
+      socket.off("chat_online");
+    };
+  }, []);
+
+  const confirmName = () => {
+    if (!myName.trim()) return;
+    myNameRef.current = myName.trim();
+    setNameSet(true);
+    // Thông báo online
+    socket.emit("chat_join", { name: myNameRef.current });
     setMsgs((p) => [
       ...p,
       {
-        id: Date.now(),
-        from: "me",
-        name: i18n.you,
-        text: input.trim(),
+        id: "join-" + Date.now(),
+        from: "sys",
+        name: "System",
+        text: `✅ Bạn đã tham gia với tên "${myNameRef.current}"`,
         time: timeNow(),
       },
     ]);
+  };
+
+  const send = () => {
+    if (!input.trim() || !nameSet) return;
+    const msg = {
+      id: Date.now() + "-" + Math.random(),
+      from: "me",
+      name: myNameRef.current,
+      text: input.trim(),
+      time: timeNow(),
+    };
+    // Hiện ngay trên UI của mình
+    setMsgs((p) => [...p, msg]);
+    // Gửi lên server để broadcast cho người khác
+    socket.emit("chat_message", msg);
     setInput("");
   };
 
+  // Chưa đặt tên — hiển thị form nhập tên
+  if (!nameSet) {
+    return (
+      <div>
+        <div style={{ marginBottom: 26 }}>
+          <p className="section-label">Hệ thống</p>
+          <h1 className="page-title">{i18n.internalChat}</h1>
+        </div>
+        <div
+          className="panel panel-0"
+          style={{
+            maxWidth: 400,
+            margin: "0 auto",
+            textAlign: "center",
+            padding: 32,
+          }}
+        >
+          <div style={{ fontSize: 40, marginBottom: 14 }}>💬</div>
+          <p style={{ fontWeight: 800, fontSize: 15, marginBottom: 6 }}>
+            Nhập tên của bạn để vào chat
+          </p>
+          <p
+            style={{ color: "var(--muted)", fontSize: 12.5, marginBottom: 20 }}
+          >
+            Tên này sẽ hiển thị với mọi người trong nhóm
+          </p>
+          <input
+            value={myName}
+            onChange={(e) => setMyName(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && confirmName()}
+            placeholder="VD: Nguyễn Văn A"
+            style={{
+              width: "100%",
+              padding: "11px 14px",
+              background: "var(--surface)",
+              border: "1px solid var(--card-border)",
+              borderRadius: 10,
+              color: "var(--text)",
+              fontSize: 14,
+              fontFamily: "'Nunito',sans-serif",
+              outline: "none",
+              marginBottom: 12,
+              boxSizing: "border-box",
+            }}
+            autoFocus
+          />
+          <button
+            className="btn-primary"
+            onClick={confirmName}
+            style={{ width: "100%", padding: "11px" }}
+          >
+            Vào chat →
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div>
-      <div style={{ marginBottom: 26 }}>
-        <p className="section-label">Hệ thống</p>
-        <h1 className="page-title">{i18n.internalChat}</h1>
-        <p style={{ color: "var(--muted)", fontSize: 13.5, fontWeight: 500 }}>
-          {i18n.teamChat}
-        </p>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "flex-start",
+          marginBottom: 22,
+          flexWrap: "wrap",
+          gap: 8,
+        }}
+      >
+        <div>
+          <p className="section-label">Hệ thống</p>
+          <h1 className="page-title">{i18n.internalChat}</h1>
+          <p style={{ color: "var(--muted)", fontSize: 13, fontWeight: 500 }}>
+            {i18n.teamChat}
+          </p>
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <span className="badge badge-success">
+            <span className="pulse-dot" style={{ width: 6, height: 6 }} />{" "}
+            {myNameRef.current}
+          </span>
+          <span className="badge badge-info">👥 {online} online</span>
+        </div>
       </div>
+
+      {/* Hướng dẫn server */}
+      <div
+        style={{
+          background: "rgba(251,191,36,.07)",
+          border: "1px solid rgba(251,191,36,.25)",
+          borderRadius: 11,
+          padding: "10px 14px",
+          marginBottom: 14,
+          fontSize: 12,
+          color: "var(--warning)",
+          fontWeight: 600,
+        }}
+      >
+        ⚠️ Cần thêm vào server Node.js:
+        <code
+          style={{
+            display: "block",
+            background: "var(--surface)",
+            borderRadius: 7,
+            padding: "7px 11px",
+            marginTop: 6,
+            fontSize: 11.5,
+            color: "var(--accent)",
+            fontFamily: "'JetBrains Mono',monospace",
+            whiteSpace: "pre-wrap",
+          }}
+        >
+          {`socket.on("chat_message", (data) => {
+  socket.broadcast.emit("chat_message", data);
+});
+socket.on("chat_join", (data) => {
+  io.emit("chat_online", /* đếm số client */);
+});`}
+        </code>
+      </div>
+
       <div
         className="panel panel-0 chat-box"
         style={{
           display: "flex",
           flexDirection: "column",
-          height: "62vh",
-          minHeight: 400,
+          height: "60vh",
+          minHeight: 380,
         }}
       >
         <div
           style={{
             flex: 1,
             overflowY: "auto",
-            padding: "6px 0",
+            padding: "6px 2px",
             display: "flex",
             flexDirection: "column",
             gap: 10,
@@ -3621,42 +3774,61 @@ function ChatPage({ i18n }) {
                 alignItems: m.from === "me" ? "flex-end" : "flex-start",
               }}
             >
-              {m.from !== "me" && (
-                <span
+              {m.from === "sys" ? (
+                <div
                   style={{
-                    fontSize: 10.5,
+                    alignSelf: "center",
+                    fontSize: 11,
                     color: "var(--muted)",
-                    fontWeight: 700,
-                    marginBottom: 3,
-                    paddingLeft: 4,
+                    background: "var(--surface)",
+                    padding: "4px 12px",
+                    borderRadius: 20,
+                    fontWeight: 600,
                   }}
                 >
-                  {m.name}
-                </span>
+                  {m.text}
+                </div>
+              ) : (
+                <>
+                  {m.from !== "me" && (
+                    <span
+                      style={{
+                        fontSize: 10.5,
+                        color: "var(--muted)",
+                        fontWeight: 700,
+                        marginBottom: 3,
+                        paddingLeft: 4,
+                      }}
+                    >
+                      {m.name}
+                    </span>
+                  )}
+                  <div
+                    className={m.from === "me" ? "bubble-me" : "bubble-other"}
+                    style={{
+                      padding: "10px 14px",
+                      maxWidth: "75%",
+                      fontSize: 13.5,
+                      fontWeight: 600,
+                      lineHeight: 1.5,
+                      wordBreak: "break-word",
+                    }}
+                  >
+                    {m.text}
+                  </div>
+                  <span
+                    style={{
+                      fontSize: 9.5,
+                      color: "var(--muted)",
+                      marginTop: 3,
+                      paddingLeft: 4,
+                      paddingRight: 4,
+                    }}
+                  >
+                    {m.time}
+                  </span>
+                </>
               )}
-              <div
-                className={m.from === "me" ? "bubble-me" : "bubble-other"}
-                style={{
-                  padding: "10px 14px",
-                  maxWidth: "72%",
-                  fontSize: 13.5,
-                  fontWeight: 600,
-                  lineHeight: 1.5,
-                }}
-              >
-                {m.text}
-              </div>
-              <span
-                style={{
-                  fontSize: 9.5,
-                  color: "var(--muted)",
-                  marginTop: 3,
-                  paddingLeft: 4,
-                  paddingRight: 4,
-                }}
-              >
-                {m.time}
-              </span>
             </div>
           ))}
           <div ref={endRef} />
@@ -3664,9 +3836,9 @@ function ChatPage({ i18n }) {
         <div
           style={{
             borderTop: "1px solid var(--card-border)",
-            paddingTop: 12,
+            paddingTop: 11,
             display: "flex",
-            gap: 9,
+            gap: 8,
             marginTop: 4,
           }}
         >

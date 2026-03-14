@@ -21,6 +21,14 @@ io.on("connection", (socket) => {
   });
 });
 
+socket.on("chat_message", (data) => {
+  socket.broadcast.emit("chat_message", data);
+});
+
+socket.on("chat_join", () => {
+  io.emit("chat_online", io.engine.clientsCount);
+});
+
 app.post("/scan", (req, res) => {
   const qr = req.body.qr;
 
