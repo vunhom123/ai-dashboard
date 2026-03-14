@@ -14,21 +14,27 @@ const io = new Server(server, {
 });
 
 io.on("connection", (socket) => {
-  console.log("dashboard connected");
+  console.log("client connected:", socket.id);
+
+  // ── CHAT ──────────────────────────────────────────────
+  socket.on("chat_message", (data) => {
+    // Broadcast cho tất cả trừ người gửi
+    socket.broadcast.emit("chat_message", data);
+  });
+
+  socket.on("chat_join", () => {
+    // Thông báo số người online cho tất cả
+    io.emit("chat_online", io.engine.clientsCount);
+  });
 
   socket.on("disconnect", () => {
-    console.log("dashboard disconnected");
+    console.log("client disconnected:", socket.id);
+    // Cập nhật lại số online khi có người thoát
+    io.emit("chat_online", io.engine.clientsCount);
   });
 });
 
-socket.on("chat_message", (data) => {
-  socket.broadcast.emit("chat_message", data);
-});
-
-socket.on("chat_join", () => {
-  io.emit("chat_online", io.engine.clientsCount);
-});
-
+// ── REST API ───────────────────────────────────────────
 app.post("/scan", (req, res) => {
   const qr = req.body.qr;
 
@@ -38,7 +44,6 @@ app.post("/scan", (req, res) => {
   };
 
   io.emit("new_scan", data);
-
   res.send("ok");
 });
 
@@ -52,7 +57,6 @@ app.post("/location", (req, res) => {
   };
 
   io.emit("shipper_location", data);
-
   res.send("ok");
 });
 
