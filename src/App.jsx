@@ -664,12 +664,13 @@ function Toggle({ on, set }) {
   );
 }
 
-/* ─── GPS HOOK (NEW) ──────────────────────────────── */
+/* ─── GPS HOOK (nâng cấp độ chính xác) ──────────────── */
 function useGPS(setPos, setHistory, addToast) {
   const wid = useRef(null);
   const [active, setActive] = useState(false);
   const [gpsErr, setGpsErr] = useState(null);
   const [accuracy, setAccuracy] = useState(null);
+  const [gpsSource, setGpsSource] = useState(null); // "gps" | "wifi" | "ip"
 
   const start = useCallback(() => {
     if (!navigator.geolocation) {
@@ -678,9 +679,33 @@ function useGPS(setPos, setHistory, addToast) {
     }
     setActive(true);
     setGpsErr(null);
+
+    // Thử lấy vị trí ngay lập tức với độ chính xác cao
+    navigator.geolocation.getCurrentPosition(
+      () => {},
+      () => {},
+      { enableHighAccuracy: true, timeout: 3000, maximumAge: 0 },
+    );
+
     wid.current = navigator.geolocation.watchPosition(
       (pos) => {
         const { latitude: lat, longitude: lng, accuracy: acc } = pos.coords;
+
+        // Xác định nguồn GPS dựa vào accuracy
+        if (acc <= 20) setGpsSource("gps");
+        else if (acc <= 500) setGpsSource("wifi");
+        else setGpsSource("ip");
+
+        // Lọc bỏ reading quá tệ (> 2km) — thường là IP-based
+        if (acc > 2000) {
+          setAccuracy(acc ? acc.toFixed(0) : null);
+          addToast(
+            `⚠️ GPS yếu (±${acc.toFixed(0)}m) — hãy ra ngoài trời`,
+            "warning",
+          );
+          return; // Không cập nhật vị trí nếu quá kém
+        }
+
         setPos([lat, lng]);
         setHistory((prev) => {
           const last = prev[prev.length - 1];
@@ -692,15 +717,19 @@ function useGPS(setPos, setHistory, addToast) {
             return prev;
           return [...prev, [lat, lng]];
         });
-        setAccuracy(acc ? acc.toFixed(1) : null);
+        setAccuracy(acc ? acc.toFixed(0) : null);
         socket.emit("shipper_location", { lat, lng, accuracy: acc });
       },
       (e) => {
         setGpsErr(e.message);
         setActive(false);
-        addToast("GPS: " + e.message, "danger");
+        addToast("GPS lỗi: " + e.message, "danger");
       },
-      { enableHighAccuracy: true, maximumAge: 2000, timeout: 8000 },
+      {
+        enableHighAccuracy: true, // Ép dùng GPS chip thay vì WiFi/IP
+        maximumAge: 0, // Không dùng cache vị trí cũ
+        timeout: 15000, // Chờ tối đa 15s để lấy GPS chính xác
+      },
     );
   }, []);
 
@@ -710,6 +739,8 @@ function useGPS(setPos, setHistory, addToast) {
       wid.current = null;
     }
     setActive(false);
+    setAccuracy(null);
+    setGpsSource(null);
   }, []);
 
   useEffect(
@@ -718,7 +749,7 @@ function useGPS(setPos, setHistory, addToast) {
     },
     [],
   );
-  return { active, gpsErr, accuracy, start, stop };
+  return { active, gpsErr, accuracy, gpsSource, start, stop };
 }
 
 /* ─── PUSH HOOK (NEW) ────────────────────────────── */
@@ -2498,7 +2529,7 @@ function DeliveryMap({ shipperPos, locationHistory, scanPoints, gps, i18n }) {
         <h1 className="page-title">Theo dõi giao hàng</h1>
       </div>
 
-      {/* NEW: GPS browser controls */}
+      {/* GPS browser controls */}
       <div
         className="panel panel-0"
         style={{
@@ -2539,8 +2570,25 @@ function DeliveryMap({ shipperPos, locationHistory, scanPoints, gps, i18n }) {
             {gps.gpsErr && (
               <span className="badge badge-danger">⚠ {gps.gpsErr}</span>
             )}
+            {/* Nguồn GPS */}
+            {gps.gpsSource === "gps" && (
+              <span className="badge badge-success">
+                📡 GPS chip — rất chính xác
+              </span>
+            )}
+            {gps.gpsSource === "wifi" && (
+              <span className="badge badge-warning">
+                📶 WiFi — tương đối chính xác
+              </span>
+            )}
+            {gps.gpsSource === "ip" && (
+              <span className="badge badge-danger">
+                🌐 IP — không chính xác
+              </span>
+            )}
           </div>
         </div>
+        {/* Accuracy meter */}
         {gps.accuracy && (
           <div style={{ textAlign: "center" }}>
             <div
@@ -2549,20 +2597,47 @@ function DeliveryMap({ shipperPos, locationHistory, scanPoints, gps, i18n }) {
                 color: "var(--muted)",
                 fontWeight: 700,
                 textTransform: "uppercase",
+                marginBottom: 2,
               }}
             >
               {i18n.accuracy}
             </div>
             <div
               style={{
-                fontSize: 16,
+                fontSize: 18,
                 fontWeight: 900,
-                color: "var(--success)",
                 fontFamily: "'JetBrains Mono',monospace",
+                color:
+                  Number(gps.accuracy) <= 20
+                    ? "var(--success)"
+                    : Number(gps.accuracy) <= 500
+                      ? "var(--warning)"
+                      : "var(--danger)",
               }}
             >
-              ±{gps.accuracy}m
+              ±
+              {Number(gps.accuracy) >= 1000
+                ? (Number(gps.accuracy) / 1000).toFixed(1) + "km"
+                : gps.accuracy + "m"}
             </div>
+          </div>
+        )}
+        {/* Hướng dẫn cải thiện nếu kém */}
+        {gps.gpsSource === "ip" && (
+          <div
+            style={{
+              fontSize: 11.5,
+              color: "var(--warning)",
+              background: "rgba(251,191,36,.07)",
+              border: "1px solid rgba(251,191,36,.2)",
+              borderRadius: 9,
+              padding: "8px 12px",
+              flex: 1,
+              minWidth: 200,
+            }}
+          >
+            💡 Để chính xác hơn: dùng <strong>điện thoại</strong>, bật GPS, mở
+            web bằng <strong>HTTPS</strong>, ra <strong>ngoài trời</strong>
           </div>
         )}
       </div>

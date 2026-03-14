@@ -16,9 +16,7 @@ const io = new Server(server, {
 io.on("connection", (socket) => {
   console.log("client connected:", socket.id);
 
-  // ── CHAT ──────────────────────────────────────────────
   socket.on("chat_message", (data) => {
-    // Broadcast cho tất cả trừ người gửi
     socket.broadcast.emit("chat_message", data);
   });
 
@@ -34,7 +32,6 @@ io.on("connection", (socket) => {
   });
 });
 
-// ── REST API ───────────────────────────────────────────
 app.post("/scan", (req, res) => {
   const qr = req.body.qr;
 
