@@ -9,61 +9,92 @@ const server = http.createServer(app);
 app.use(cors());
 app.use(express.json());
 
-const io = new Server(server, {
-  cors: { origin: "*" },
-});
+const io = new Server(server, { cors: { origin: "*" } });
+
+const shippers = {};
 
 io.on("connection", (socket) => {
-  console.log("client connected:", socket.id);
+  console.log("connected:", socket.id);
 
   socket.on("chat_message", (data) => {
-    socket.broadcast.emit("chat_message", data);
+    io.emit("chat_message", data);
   });
-
   socket.on("chat_join", () => {
     io.emit("chat_online", io.engine.clientsCount);
   });
 
+  socket.on("gps_update", (data) => {
+    const id = data.userId || socket.id;
+    shippers[id] = {
+      id,
+      name: data.name || "Shipper " + String(id).slice(0, 6),
+      lat: Number(data.lat),
+      lng: Number(data.lng),
+      accuracy: data.accuracy || null,
+      time: new Date().toLocaleTimeString(),
+      socketId: socket.id,
+    };
+
+    io.emit("shipper_location", shippers[id]);
+
+    io.emit("all_shippers", Object.values(shippers));
+  });
+
   socket.on("disconnect", () => {
-    console.log("client disconnected:", socket.id);
+    console.log("disconnected:", socket.id);
     io.emit("chat_online", io.engine.clientsCount);
+
+    for (const id in shippers) {
+      if (shippers[id].socketId === socket.id) {
+        delete shippers[id];
+      }
+    }
+    io.emit("all_shippers", Object.values(shippers));
   });
 });
 
-// POST /scan — nhận từ Raspberry Pi hoặc mobile app
-// Body: { qr, lat?, lng?, accuracy? }
 app.post("/scan", (req, res) => {
-  const { qr, lat, lng, accuracy } = req.body;
+  const { qr, lat, lng, accuracy, userId, name } = req.body;
+  if (!qr) return res.status(400).json({ error: "missing qr" });
 
   const data = {
     code: qr,
     time: new Date().toLocaleTimeString(),
-    // Gửi kèm GPS nếu có (từ mobile)
-    ...(lat !== undefined && { lat: Number(lat) }),
-    ...(lng !== undefined && { lng: Number(lng) }),
-    ...(accuracy !== undefined && { accuracy: Number(accuracy) }),
+    userId: userId || null,
+    name: name || null,
+    ...(lat != null && { lat: Number(lat) }),
+    ...(lng != null && { lng: Number(lng) }),
+    ...(accuracy != null && { accuracy: Number(accuracy) }),
   };
 
   console.log("new_scan:", data);
   io.emit("new_scan", data);
-  res.send("ok");
+  res.json({ ok: true });
 });
 
-// POST /location — cập nhật vị trí shipper
 app.post("/location", (req, res) => {
-  const { lat, lng } = req.body;
+  const { userId, name, lat, lng, accuracy } = req.body;
+  if (lat == null || lng == null)
+    return res.status(400).json({ error: "missing lat/lng" });
 
-  const data = {
+  const id = userId || "http_" + Date.now();
+  shippers[id] = {
+    id,
+    name: name || "Shipper " + String(id).slice(0, 6),
     lat: Number(lat),
     lng: Number(lng),
+    accuracy: accuracy ? Number(accuracy) : null,
     time: new Date().toLocaleTimeString(),
+    socketId: null,
   };
 
-  console.log("shipper_location:", data);
-  io.emit("shipper_location", data);
-  res.send("ok");
+  io.emit("shipper_location", shippers[id]);
+  io.emit("all_shippers", Object.values(shippers));
+  res.json({ ok: true });
 });
 
-server.listen(5000, () => {
-  console.log("server running on port 5000");
+app.get("/shippers", (_req, res) => {
+  res.json(Object.values(shippers));
 });
+
+server.listen(5000, () => console.log("server running :5000"));

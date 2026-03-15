@@ -36,12 +36,17 @@ function useGPS() {
     // Theo dõi liên tục
     watchId.current = navigator.geolocation.watchPosition(
       (p) => {
-        setPos({
-          lat: p.coords.latitude,
-          lng: p.coords.longitude,
-          acc: p.coords.accuracy,
-        });
+        const { latitude: lat, longitude: lng, accuracy: acc } = p.coords;
+        setPos({ lat, lng, acc });
         setStatus("ok");
+        // Emit GPS realtime qua socket
+        socket.emit("gps_update", {
+          userId: localStorage.getItem("scan_userid") || "unknown",
+          name: localStorage.getItem("scan_username") || "Shipper",
+          lat,
+          lng,
+          accuracy: acc,
+        });
       },
       () => {},
       { enableHighAccuracy: true, maximumAge: 0, timeout: 20000 },
@@ -366,6 +371,27 @@ export default function Scan() {
   const [cameras, setCameras] = useState([]);
   const [camId, setCamId] = useState(null); // selected camera id
 
+  // userId duy nhất cho mỗi thiết bị, lưu localStorage
+  const [userName, setUserName] = useState(
+    () => localStorage.getItem("scan_username") || "",
+  );
+  const userIdRef = React.useRef(() => {
+    let id = localStorage.getItem("scan_userid");
+    if (!id) {
+      id = "u_" + Date.now() + "_" + Math.random().toString(36).slice(2, 7);
+      localStorage.setItem("scan_userid", id);
+    }
+    return id;
+  });
+  const userIdSaved = React.useMemo(() => {
+    let id = localStorage.getItem("scan_userid");
+    if (!id) {
+      id = "u_" + Date.now() + "_" + Math.random().toString(36).slice(2, 7);
+      localStorage.setItem("scan_userid", id);
+    }
+    return id;
+  }, []);
+
   // Sync GPS pos vào ref để dùng trong callback
   useEffect(() => {
     gpsPosRef.current = gps.pos;
@@ -464,21 +490,19 @@ export default function Scan() {
       ...(pos ? { lat: pos.lat, lng: pos.lng, accuracy: pos.acc } : {}),
     };
 
-    // Gửi lên server qua HTTP POST (server dùng REST, không phải socket emit)
+    // Gửi lên server qua HTTP POST kèm userId, name, GPS
     fetch("https://qr-server-n6pp.onrender.com/scan", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ qr: payload.code }),
+      body: JSON.stringify({
+        qr: payload.code,
+        userId: localStorage.getItem("scan_userid") || "unknown",
+        name: localStorage.getItem("scan_username") || "Shipper",
+        lat: payload.lat || null,
+        lng: payload.lng || null,
+        accuracy: payload.accuracy || null,
+      }),
     }).catch(() => {});
-
-    // Đồng thời gửi GPS lên /location nếu có tọa độ
-    if (payload.lat && payload.lng) {
-      fetch("https://qr-server-n6pp.onrender.com/location", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ lat: payload.lat, lng: payload.lng }),
-      }).catch(() => {});
-    }
 
     const result = { code, time, lat: pos?.lat, lng: pos?.lng };
     setLastScan(result);
@@ -562,6 +586,48 @@ export default function Scan() {
         <p style={{ color: "var(--muted)", fontSize: 12.5 }}>
           Mở camera → đưa vào mã QR → tự động gửi kèm GPS
         </p>
+      </div>
+
+      {/* Nhập tên người quét */}
+      <div
+        style={{
+          display: "flex",
+          gap: 8,
+          alignItems: "center",
+          marginBottom: 14,
+        }}
+      >
+        <input
+          placeholder="Tên của bạn (VD: Nguyễn A)"
+          value={userName}
+          onChange={(e) => {
+            setUserName(e.target.value);
+            localStorage.setItem("scan_username", e.target.value);
+          }}
+          style={{
+            flex: 1,
+            padding: "9px 13px",
+            background: "var(--surface)",
+            border: "1px solid var(--card-border)",
+            borderRadius: 9,
+            color: "var(--text)",
+            fontSize: 13,
+            fontFamily: "'Nunito',sans-serif",
+            outline: "none",
+          }}
+        />
+        {userName && (
+          <span
+            style={{
+              fontSize: 11,
+              color: "var(--success)",
+              fontWeight: 700,
+              whiteSpace: "nowrap",
+            }}
+          >
+            ✓ Đã lưu
+          </span>
+        )}
       </div>
 
       {/* Status pills */}

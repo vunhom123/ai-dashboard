@@ -1392,6 +1392,7 @@ export default function App() {
   const [shipperPos, setShipperPos] = useState([21.0285, 105.8542]);
   const [locationHistory, setLocationHistory] = useState([[21.0285, 105.8542]]);
   const [scanPoints, setScanPoints] = useState([]);
+  const [allShippers, setAllShippers] = useState({}); // { id: {id,name,lat,lng,time} }
 
   // Charts
   const [hourlyData, setHourlyData] = useState(() =>
@@ -1497,11 +1498,21 @@ export default function App() {
       });
     });
 
+    // Nhận danh sách tất cả shippers đang online
+    socket.on("all_shippers", (list) => {
+      const map = {};
+      list.forEach((s) => {
+        map[s.id] = s;
+      });
+      setAllShippers(map);
+    });
+
     return () => {
       socket.off("new_scan");
       socket.off("scan_error");
       socket.off("gps_update");
       socket.off("shipper_location");
+      socket.off("all_shippers");
     };
   }, []);
 
@@ -1590,6 +1601,7 @@ export default function App() {
       locationHistory,
       scanPoints,
       gps,
+      allShippers,
       staff,
       setStaff,
       alertRules,
@@ -2976,7 +2988,14 @@ function Orders({ orderList, setOrderList, scannedList, addToast, i18n }) {
 }
 
 // ── Delivery Map ─────────────────────────────────────────────
-function DeliveryMap({ shipperPos, locationHistory, scanPoints, gps, i18n }) {
+function DeliveryMap({
+  shipperPos,
+  locationHistory,
+  scanPoints,
+  gps,
+  i18n,
+  allShippers,
+}) {
   const totalDist =
     locationHistory.length < 2
       ? 0
@@ -3190,6 +3209,49 @@ function DeliveryMap({ shipperPos, locationHistory, scanPoints, gps, i18n }) {
               </div>
             </Popup>
           </Marker>
+          {/* Markers cho tất cả shippers đang online */}
+          {Object.values(allShippers || {}).map(
+            (s) =>
+              s.lat &&
+              s.lng &&
+              !(
+                Math.abs(s.lat - shipperPos[0]) < 0.0001 &&
+                Math.abs(s.lng - shipperPos[1]) < 0.0001
+              ) && (
+                <Marker key={s.id} position={[s.lat, s.lng]} icon={shipperIcon}>
+                  <Popup>
+                    <div
+                      style={{
+                        fontFamily: "'Nunito',sans-serif",
+                        minWidth: 150,
+                      }}
+                    >
+                      <div
+                        style={{
+                          fontWeight: 800,
+                          marginBottom: 4,
+                          color: "#34d399",
+                        }}
+                      >
+                        📦 {s.name}
+                      </div>
+                      <div style={{ fontSize: 11, color: "#94a3b8" }}>
+                        Lat: {s.lat.toFixed(6)}
+                      </div>
+                      <div style={{ fontSize: 11, color: "#94a3b8" }}>
+                        Lng: {s.lng.toFixed(6)}
+                      </div>
+                      <div
+                        style={{ fontSize: 11, color: "#38bdf8", marginTop: 2 }}
+                      >
+                        🕐 {s.time}
+                      </div>
+                    </div>
+                  </Popup>
+                </Marker>
+              ),
+          )}
+
           {scanPoints.map((sp, i) => (
             <Marker key={i} position={[sp.lat, sp.lng]} icon={qrIcon}>
               <Popup>
@@ -3881,16 +3943,18 @@ function ChatPage({ i18n }) {
     // FIX 6 — listen to correct socket events
     const onMsg = (data) => {
       setMsgs((p) => {
-        if (p.find((m) => m.id === data.id)) return p;
-        return [...p, { ...data, from: "other" }];
+        if (p.find((m) => m.id === data.id)) return p; // dedup
+        // Xác định from: nếu là tin mình gửi thì giữ "me", không thì "other"
+        const from = data.name === nameRef.current ? "me" : "other";
+        return [...p, { ...data, from }];
       });
     };
     const onOnline = (n) => setOnline(n);
-    socket.on("chat_msg", onMsg); // corrected event name
-    socket.on("chat_count", onOnline);
+    socket.on("chat_message", onMsg); // corrected event name
+    socket.on("chat_online", onOnline);
     return () => {
-      socket.off("chat_msg", onMsg);
-      socket.off("chat_count", onOnline);
+      socket.off("chat_message", onMsg);
+      socket.off("chat_online", onOnline);
     };
   }, []);
 
@@ -3919,9 +3983,11 @@ function ChatPage({ i18n }) {
       text: input.trim(),
       time: timeNow(),
     };
+    // Hiện ngay trên UI của người gửi
     setMsgs((p) => [...p, msg]);
-    // FIX 6 — emit correct event
-    socket.emit("chat_msg", msg);
+    // Gửi lên server → server broadcast cho người khác
+    // Server dùng io.emit nên sẽ gửi lại cho mình, nhưng dedup sẽ bỏ qua
+    socket.emit("chat_message", msg);
     setInput("");
   };
 
