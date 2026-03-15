@@ -96,36 +96,63 @@ function UploadQR({ onResult }) {
 
       const img = new Image();
       img.onload = () => {
-        // Thử nhiều kích thước để tăng tỉ lệ nhận diện
-        const sizes = [
-          { w: img.width, h: img.height },
-          { w: 1024, h: Math.round((img.height * 1024) / img.width) },
-          { w: 512, h: Math.round((img.height * 512) / img.width) },
-        ];
+        // Hàm threshold: chuyển ảnh thành đen/trắng thuần để jsQR dễ đọc hơn
+        // Xử lý lưới kẻ, nhiễu, ảnh chụp màn hình
+        const applyThreshold = (ctx, w, h, thresh) => {
+          const d = ctx.getImageData(0, 0, w, h);
+          for (let i = 0; i < d.data.length; i += 4) {
+            const gray =
+              0.299 * d.data[i] + 0.587 * d.data[i + 1] + 0.114 * d.data[i + 2];
+            const v = gray < thresh ? 0 : 255;
+            d.data[i] = d.data[i + 1] = d.data[i + 2] = v;
+          }
+          ctx.putImageData(d, 0, 0);
+          return ctx.getImageData(0, 0, w, h);
+        };
+
+        // Thử nhiều cách: kích thước khác nhau + có/không threshold
+        const sizes = [img.width, 1024, 800, 512];
+        const thresholds = [128, 100, 160, 80, 200]; // nhiều ngưỡng khác nhau
         let found = null;
-        for (const { w, h } of sizes) {
-          const canvas = document.createElement("canvas");
-          canvas.width = w;
-          canvas.height = h;
-          const ctx = canvas.getContext("2d");
-          ctx.drawImage(img, 0, 0, w, h);
-          const imageData = ctx.getImageData(0, 0, w, h);
-          let r = window.jsQR(imageData.data, w, h, {
-            inversionAttempts: "dontInvert",
-          });
-          if (!r)
-            r = window.jsQR(imageData.data, w, h, {
-              inversionAttempts: "onlyInvert",
-            });
-          if (!r)
-            r = window.jsQR(imageData.data, w, h, {
-              inversionAttempts: "attemptBoth",
-            });
-          if (r?.data) {
-            found = r.data;
-            break;
+
+        outer: for (const size of sizes) {
+          const scale = size / Math.max(img.width, img.height);
+          const w = Math.round(img.width * scale);
+          const h = Math.round(img.height * scale);
+
+          // Thử KHÔNG threshold trước
+          const c0 = document.createElement("canvas");
+          c0.width = w;
+          c0.height = h;
+          const ctx0 = c0.getContext("2d");
+          ctx0.drawImage(img, 0, 0, w, h);
+          for (const inv of ["dontInvert", "onlyInvert", "attemptBoth"]) {
+            const id = ctx0.getImageData(0, 0, w, h);
+            const r = window.jsQR(id.data, w, h, { inversionAttempts: inv });
+            if (r?.data) {
+              found = r.data;
+              break outer;
+            }
+          }
+
+          // Thử CÓ threshold (xử lý lưới kẻ & nhiễu)
+          for (const thresh of thresholds) {
+            const c = document.createElement("canvas");
+            c.width = w;
+            c.height = h;
+            const ctx = c.getContext("2d");
+            ctx.drawImage(img, 0, 0, w, h);
+            for (const inv of ["dontInvert", "onlyInvert", "attemptBoth"]) {
+              const id = applyThreshold(ctx, w, h, thresh);
+              const r = window.jsQR(id.data, w, h, { inversionAttempts: inv });
+              if (r?.data) {
+                found = r.data;
+                break outer;
+              }
+            }
           }
         }
+
         if (found) {
           onResult(found);
           setErr("");
@@ -139,7 +166,7 @@ function UploadQR({ onResult }) {
         setErr("Không đọc được ảnh.");
         setLoading(false);
       };
-      img.src = dataURL; // dataURL không bị CORS
+      img.src = dataURL;
     };
     reader.onerror = () => {
       setErr("Không đọc được file.");
