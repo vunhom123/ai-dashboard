@@ -1,0 +1,183 @@
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+
+# đọc ảnh
+img = cv2.imread("image.jpg")
+
+# bước 1: chuyển sang ảnh xám
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+# bước 2: gaussian blur
+def gaussian_blur(img):
+    kernel = np.array([[1,4,7,4,1],
+                       [4,16,26,16,4],
+                       [7,26,41,26,7],
+                       [4,16,26,16,4],
+                       [1,4,7,4,1]])/273
+
+    m,n = img.shape
+    result = np.zeros((m,n))
+
+    pad = 2
+    padded = np.pad(img, pad)
+
+    for i in range(m):
+        for j in range(n):
+            region = padded[i:i+5,j:j+5]
+            result[i,j] = np.sum(region*kernel)
+
+    return result
+
+blur = gaussian_blur(gray)
+
+# bước 3: gradient sobel
+sobel_x = np.array([[-1,0,1],
+                    [-2,0,2],
+                    [-1,0,1]])
+
+sobel_y = np.array([[-1,-2,-1],
+                    [0,0,0],
+                    [1,2,1]])
+
+def sobel(img):
+    m,n = img.shape
+    gx = np.zeros((m,n))
+    gy = np.zeros((m,n))
+
+    padded = np.pad(img,1)
+
+    for i in range(m):
+        for j in range(n):
+            region = padded[i:i+3,j:j+3]
+            gx[i,j] = np.sum(region*sobel_x)
+            gy[i,j] = np.sum(region*sobel_y)
+
+    mag = np.sqrt(gx**2 + gy**2)
+    theta = np.arctan2(gy,gx)
+
+    return mag,theta
+
+gradient,theta = sobel(blur)
+
+# bước 4: Non Maximum Suppression
+def non_maximum_suppression(mag,theta):
+
+    m,n = mag.shape
+    Z = np.zeros((m,n))
+
+    angle = theta*180/np.pi
+    angle[angle<0]+=180
+
+    for i in range(1,m-1):
+        for j in range(1,n-1):
+
+            q=255
+            r=255
+
+            if (0<=angle[i,j]<22.5) or (157.5<=angle[i,j]<=180):
+                q=mag[i,j+1]
+                r=mag[i,j-1]
+
+            elif (22.5<=angle[i,j]<67.5):
+                q=mag[i+1,j-1]
+                r=mag[i-1,j+1]
+
+            elif (67.5<=angle[i,j]<112.5):
+                q=mag[i+1,j]
+                r=mag[i-1,j]
+
+            elif (112.5<=angle[i,j]<157.5):
+                q=mag[i-1,j-1]
+                r=mag[i+1,j+1]
+
+            if (mag[i,j]>=q) and (mag[i,j]>=r):
+                Z[i,j]=mag[i,j]
+            else:
+                Z[i,j]=0
+
+    return Z
+
+nms = non_maximum_suppression(gradient,theta)
+
+# bước 5: double threshold
+def double_threshold(img):
+
+    high = img.max()*0.2
+    low = high*0.5
+
+    m,n = img.shape
+    res = np.zeros((m,n))
+
+    strong = 255
+    weak = 75
+
+    strong_i,strong_j = np.where(img>=high)
+    weak_i,weak_j = np.where((img<=high)&(img>=low))
+
+    res[strong_i,strong_j]=strong
+    res[weak_i,weak_j]=weak
+
+    return res,strong,weak
+
+thresh,strong,weak = double_threshold(nms)
+
+# bước 6: hysteresis
+def hysteresis(img,strong,weak):
+
+    m,n = img.shape
+
+    for i in range(1,m-1):
+        for j in range(1,n-1):
+
+            if img[i,j]==weak:
+                if ((img[i+1,j-1]==strong) or
+                    (img[i+1,j]==strong) or
+                    (img[i+1,j+1]==strong) or
+                    (img[i,j-1]==strong) or
+                    (img[i,j+1]==strong) or
+                    (img[i-1,j-1]==strong) or
+                    (img[i-1,j]==strong) or
+                    (img[i-1,j+1]==strong)):
+                    img[i,j]=strong
+                else:
+                    img[i,j]=0
+    return img
+
+edges = hysteresis(thresh,strong,weak)
+
+# hiển thị kết quả
+plt.figure(figsize=(12,8))
+
+plt.subplot(231)
+plt.title("Original")
+plt.imshow(cv2.cvtColor(img,cv2.COLOR_BGR2RGB))
+plt.axis("off")
+
+plt.subplot(232)
+plt.title("Gray")
+plt.imshow(gray,cmap="gray")
+plt.axis("off")
+
+plt.subplot(233)
+plt.title("Gaussian Blur")
+plt.imshow(blur,cmap="gray")
+plt.axis("off")
+
+plt.subplot(234)
+plt.title("Gradient")
+plt.imshow(gradient,cmap="gray")
+plt.axis("off")
+
+plt.subplot(235)
+plt.title("Non Max Suppression")
+plt.imshow(nms,cmap="gray")
+plt.axis("off")
+
+plt.subplot(236)
+plt.title("Final Edge")
+plt.imshow(edges,cmap="gray")
+plt.axis("off")
+
+plt.tight_layout()
+plt.show()
