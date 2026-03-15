@@ -814,7 +814,6 @@ const ROLE_PERMS = {
 };
 
 // Admin username — only this account has full admin rights
-const ADMIN_USERNAME = "admin";
 
 // ── Pages each role can access ──────────────────────────────
 const PAGE_ACCESS = {
@@ -1511,10 +1510,23 @@ export default function App() {
     setErrorRate(tot > 0 ? ((failCount / tot) * 100).toFixed(1) : "0.0");
   }, [history.length, failCount]);
 
-  // FIX 2 — Login handler: determine role
-  const handleLogin = (username) => {
-    const role = username === ADMIN_USERNAME ? "admin" : "scanner";
-    setCurrentUser({ username, role });
+  // Tài khoản mặc định — có thể mở rộng thêm user vào đây
+  const ACCOUNTS = {
+    admin: { password: "123", role: "admin" },
+    supervisor: { password: "123", role: "supervisor" },
+    // Mọi username khác đăng nhập được với pass bất kỳ → scanner
+  };
+
+  // FIX 2 — Login handler: xác định role đúng từ username + password
+  const handleLogin = (username, password) => {
+    const uname = (username || "").trim().toLowerCase();
+    const acc = ACCOUNTS[uname];
+    let role = "scanner";
+    if (acc && acc.password === password) {
+      role = acc.role;
+    }
+    // Nếu username là "admin" dù pass sai thì vẫn cho vào nhưng là scanner
+    setCurrentUser({ username: uname, role });
     setLoggedIn(true);
   };
 

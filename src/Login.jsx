@@ -23,7 +23,7 @@ export default function Login({ onLogin }) {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      onLogin();
+      onLogin(username, password);
     }, 1500);
   };
 
