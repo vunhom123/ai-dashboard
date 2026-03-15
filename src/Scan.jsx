@@ -464,8 +464,21 @@ export default function Scan() {
       ...(pos ? { lat: pos.lat, lng: pos.lng, accuracy: pos.acc } : {}),
     };
 
-    // Gửi lên server
-    socket.emit("new_scan", payload);
+    // Gửi lên server qua HTTP POST (server dùng REST, không phải socket emit)
+    fetch("https://qr-server-n6pp.onrender.com/scan", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ qr: payload.code }),
+    }).catch(() => {});
+
+    // Đồng thời gửi GPS lên /location nếu có tọa độ
+    if (payload.lat && payload.lng) {
+      fetch("https://qr-server-n6pp.onrender.com/location", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ lat: payload.lat, lng: payload.lng }),
+      }).catch(() => {});
+    }
 
     const result = { code, time, lat: pos?.lat, lng: pos?.lng };
     setLastScan(result);

@@ -21,38 +21,45 @@ io.on("connection", (socket) => {
   });
 
   socket.on("chat_join", () => {
-    // Thông báo số người online cho tất cả
     io.emit("chat_online", io.engine.clientsCount);
   });
 
   socket.on("disconnect", () => {
     console.log("client disconnected:", socket.id);
-    // Cập nhật lại số online khi có người thoát
     io.emit("chat_online", io.engine.clientsCount);
   });
 });
 
+// POST /scan — nhận từ Raspberry Pi hoặc mobile app
+// Body: { qr, lat?, lng?, accuracy? }
 app.post("/scan", (req, res) => {
-  const qr = req.body.qr;
+  const { qr, lat, lng, accuracy } = req.body;
 
   const data = {
     code: qr,
     time: new Date().toLocaleTimeString(),
+    // Gửi kèm GPS nếu có (từ mobile)
+    ...(lat !== undefined && { lat: Number(lat) }),
+    ...(lng !== undefined && { lng: Number(lng) }),
+    ...(accuracy !== undefined && { accuracy: Number(accuracy) }),
   };
 
+  console.log("new_scan:", data);
   io.emit("new_scan", data);
   res.send("ok");
 });
 
+// POST /location — cập nhật vị trí shipper
 app.post("/location", (req, res) => {
   const { lat, lng } = req.body;
 
   const data = {
-    lat,
-    lng,
+    lat: Number(lat),
+    lng: Number(lng),
     time: new Date().toLocaleTimeString(),
   };
 
+  console.log("shipper_location:", data);
   io.emit("shipper_location", data);
   res.send("ok");
 });
